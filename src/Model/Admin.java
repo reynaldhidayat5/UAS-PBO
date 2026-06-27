@@ -1,13 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Model;
+package model;
 
-/**
- *
- * @author Dino
- */
-public class Admin {
-    
+public class Admin extends User {
+    private int idAdmin;
+    private String idKerja;
+
+    public Admin() {
+        super();
+    }
+
+    public void verifikasiPendaftaran() {
+        
+    }
+
+    public void verifikasiPembayaran() {
+        
+    }
+
+    public void kelolaJalurDanGunung() {
+       
+    }
+
+    public void cetakLaporan() {
+       
+    }
+
+    public int getIdAdmin() { return idAdmin; }
+    public void setIdAdmin(int idAdmin) { this.idAdmin = idAdmin; }
+
+    public String getIdKerja() { return idKerja; }
+    public void setIdKerja(String idKerja) { this.idKerja = idKerja; }
 }
