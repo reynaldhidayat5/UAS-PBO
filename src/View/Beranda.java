@@ -38,6 +38,7 @@ public class Beranda extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -76,18 +77,22 @@ public class Beranda extends javax.swing.JFrame {
         jButton4.setBounds(536, 6, 81, 23);
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Whatsapp : ");
+        jLabel3.setText("Whatsapp : 0811 4242 89888");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(6, 272, 62, 16);
+        jLabel3.setBounds(6, 272, 150, 16);
 
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Instagram :");
+        jLabel7.setText("Instagram : @simaksi.ungaran");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(6, 294, 59, 16);
+        jLabel7.setBounds(6, 294, 160, 16);
 
         jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\pemandangan (1) (1).png")); // NOI18N
         getContentPane().add(jLabel4);
         jLabel4.setBounds(-3, -4, 670, 340);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\ChatGPT Image 26 Mei 2026, 12.49.02 (1).png")); // NOI18N
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(0, 0, 64, 64);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -130,6 +135,7 @@ public class Beranda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
