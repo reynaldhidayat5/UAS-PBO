@@ -139,16 +139,16 @@
                       <Component id="cbJalur" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <Component id="txtTanggalNaik" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtTotalBiaya" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="38" max="32767" attributes="0"/>
+                  <EmptySpace pref="36" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnHitung" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnBayar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -235,9 +235,6 @@
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="txtTanggalNaik">
-          <Properties>
-            <Property name="dateFormatString" type="java.lang.String" value="yyyy mm dd"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

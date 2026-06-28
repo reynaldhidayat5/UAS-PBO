@@ -92,7 +92,7 @@ public class Login extends javax.swing.JFrame {
         btnLogin.addActionListener(this::btnLoginActionPerformed);
         getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
 
-        jLabel4.setText("Sudah Punya Akun?");
+        jLabel4.setText("Belum Punya Akun?");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, -1));
 
         btnKeRegister.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

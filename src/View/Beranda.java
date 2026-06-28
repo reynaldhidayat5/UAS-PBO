@@ -32,7 +32,7 @@ public class Beranda extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnJadwal = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -49,7 +49,7 @@ public class Beranda extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Selamat Datang, Booking Online Gunung ");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, -1, -1));
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -59,9 +59,9 @@ public class Beranda extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\ChatGPT Image 26 Mei 2026, 12.49.02 (1).png")); // NOI18N
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
-        jButton1.setText("Cek Jadwal");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 6, -1, -1));
+        btnJadwal.setText("Cek Jadwal");
+        btnJadwal.addActionListener(this::btnJadwalActionPerformed);
+        getContentPane().add(btnJadwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 6, -1, -1));
 
         jButton2.setText("Jalur Pendakian");
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(309, 6, -1, -1));
@@ -79,7 +79,7 @@ public class Beranda extends javax.swing.JFrame {
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Whatsapp : 0811 4242 89888");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 272, 150, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 272, 180, -1));
 
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Instagram : @simaksi.lee");
@@ -92,9 +92,11 @@ public class Beranda extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnJadwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadwalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        new CekJadwal().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnJadwalActionPerformed
 
     private void btnLoginMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginMenuActionPerformed
         new Login().setVisible(true);
@@ -131,8 +133,8 @@ public class Beranda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnJadwal;
     private javax.swing.JButton btnLoginMenu;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
