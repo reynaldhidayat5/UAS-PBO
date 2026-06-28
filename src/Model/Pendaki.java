@@ -4,9 +4,9 @@ public class Pendaki extends User {
     private int idPendaki;
     private String idKTP;
     private String nik;
-    private String status;
+    private String jeniskelamin;
     private String fotoKTP;
-    private String fotoSIM;
+    private String kontakdarurat;
 
     public Pendaki() {
         super();
@@ -31,12 +31,12 @@ public class Pendaki extends User {
     public String getNik() { return nik; }
     public void setNik(String nik) { this.nik = nik; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getJeniskelamin() { return jeniskelamin; }
+    public void setJeniskelamin(String jeniskelamin) { this.jeniskelamin = jeniskelamin; }
 
     public String getFotoKTP() { return fotoKTP; }
     public void setFotoKTP(String fotoKTP) { this.fotoKTP = fotoKTP; }
 
-    public String getFotoSIM() { return fotoSIM; }
-    public void setFotoSIM(String fotoSIM) { this.fotoSIM = fotoSIM; }
+    public String getKontakdarurat() { return kontakdarurat; }
+    public void getKontakdarurat(String kontakdarurat) { this.kontakdarurat = kontakdarurat; }
 }

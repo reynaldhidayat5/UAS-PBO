@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Koneksi {
     // Siapkan variabel untuk konfigurasi database
-    private static final String URL = "jdbc:mysql://localhost:3306/Simaksi_Gunung";
+    private static final String URL = "jdbc:mysql://localhost:3306/db_simaksi";
     private static final String USER = "root"; // username default xampp
     private static final String PASSWORD = ""; // password default xampp (kosong)
     

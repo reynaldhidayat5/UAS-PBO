@@ -28,21 +28,113 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        TxtEmail = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        btnKeRegister = new javax.swing.JLabel();
+        TxtPassword = new javax.swing.JPasswordField();
+        btnBatal = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(0, 102, 0));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Simaksi Gunung  ");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(154, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(121, 121, 121))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, -1));
+
+        jLabel2.setText("Email");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 156, 53, -1));
+        getContentPane().add(TxtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 153, 199, -1));
+
+        jLabel3.setText("Password");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 196, -1, -1));
+
+        btnLogin.setBackground(new java.awt.Color(51, 255, 0));
+        btnLogin.setText("LOGIN");
+        btnLogin.addActionListener(this::btnLoginActionPerformed);
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 227, -1, -1));
+
+        jLabel4.setText("Sudah Punya Akun?");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 268, -1, -1));
+
+        btnKeRegister.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnKeRegister.setForeground(new java.awt.Color(51, 255, 51));
+        btnKeRegister.setText("Daftar Sekarang!");
+        btnKeRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnKeRegisterMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnKeRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, -1, -1));
+        getContentPane().add(TxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 193, 199, -1));
+
+        btnBatal.setBackground(new java.awt.Color(255, 51, 51));
+        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBatal.setText("<--");
+        btnBatal.addActionListener(this::btnBatalActionPerformed);
+        getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 265, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnKeRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKeRegisterMouseClicked
+        new Registrasi().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnKeRegisterMouseClicked
+
+    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+        new Beranda().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBatalActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+       String email = TxtEmail.getText();
+       String password = new String(TxtPassword.getPassword());
+
+    // Validasi input kosong
+    if (email.isEmpty() || password.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Email dan Password tidak boleh kosong!");
+        return;
+    }
+
+    // Panggil AuthController untuk validasi ke DB
+    controller.AuthController auth = new controller.AuthController();
+    String role = auth.login(email, password);
+
+    if (role != null) {
+        if (role.equalsIgnoreCase("Admin")) {
+            // new AdminDashboardView().setVisible(true);
+        } else {
+            // new BookingFormView().setVisible(true);
+        }
+        this.dispose(); // Menutup form login
+    } // TODO add your handling code here:
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +162,15 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField TxtEmail;
+    private javax.swing.JPasswordField TxtPassword;
+    private javax.swing.JButton btnBatal;
+    private javax.swing.JLabel btnKeRegister;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

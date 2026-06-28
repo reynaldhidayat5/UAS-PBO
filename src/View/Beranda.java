@@ -35,64 +35,53 @@ public class Beranda extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        btnLoginMenu = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setBackground(new java.awt.Color(51, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Selamat Datang, Booking Online Gunung Ungaran ");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(110, 130, 440, 25);
-
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\ChatGPT Image 26 Mei 2026, 12.49.02 (1).png")); // NOI18N
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(0, 0, 64, 64);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Contact Person");
-        getContentPane().add(jLabel8);
-        jLabel8.setBounds(16, 244, 81, 16);
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 244, -1, -1));
 
         jButton1.setText("Cek Jadwal");
         jButton1.addActionListener(this::jButton1ActionPerformed);
-        getContentPane().add(jButton1);
-        jButton1.setBounds(209, 6, 88, 23);
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 6, -1, -1));
 
         jButton2.setText("Jalur Pendakian");
-        getContentPane().add(jButton2);
-        jButton2.setBounds(309, 6, 112, 23);
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(309, 6, -1, -1));
 
         jButton3.setText("Pemesanan");
-        getContentPane().add(jButton3);
-        jButton3.setBounds(433, 6, 91, 23);
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(433, 6, -1, -1));
 
         jButton4.setText("Peraturan");
-        getContentPane().add(jButton4);
-        jButton4.setBounds(536, 6, 81, 23);
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(536, 6, -1, -1));
+
+        btnLoginMenu.setBackground(new java.awt.Color(204, 255, 204));
+        btnLoginMenu.setText("Login");
+        btnLoginMenu.addActionListener(this::btnLoginMenuActionPerformed);
+        getContentPane().add(btnLoginMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 300, -1, -1));
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Whatsapp : 0811 4242 89888");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(6, 272, 150, 16);
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 272, 150, -1));
 
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Instagram : @simaksi.ungaran");
-        getContentPane().add(jLabel7);
-        jLabel7.setBounds(6, 294, 160, 16);
-
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\pemandangan (1) (1).png")); // NOI18N
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(-3, -4, 670, 340);
-
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\ChatGPT Image 26 Mei 2026, 12.49.02 (1).png")); // NOI18N
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(0, 0, 64, 64);
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 294, 160, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 340));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -100,6 +89,11 @@ public class Beranda extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnLoginMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginMenuActionPerformed
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLoginMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,10 +117,15 @@ public class Beranda extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Beranda().setVisible(true));
+       
+    java.awt.EventQueue.invokeLater(() -> {
+        new Beranda().setVisible(true);
+    });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLoginMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
