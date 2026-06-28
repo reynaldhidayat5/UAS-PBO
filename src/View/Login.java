@@ -28,8 +28,10 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         TxtEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -38,6 +40,8 @@ public class Login extends javax.swing.JFrame {
         btnKeRegister = new javax.swing.JLabel();
         TxtPassword = new javax.swing.JPasswordField();
         btnBatal = new javax.swing.JButton();
+
+        jLabel6.setText("jLabel6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -48,39 +52,48 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Simaksi Gunung  ");
 
+        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\ChatGPT Image 26 Mei 2026, 12.49.02 (1).png")); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(154, Short.MAX_VALUE)
+                .addContainerGap(66, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(121, 121, 121))
+                .addGap(127, 127, 127))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel1)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel1)))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, -1));
 
         jLabel2.setText("Email");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 156, 53, -1));
-        getContentPane().add(TxtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 153, 199, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 53, -1));
+        getContentPane().add(TxtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 199, -1));
 
         jLabel3.setText("Password");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 196, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, -1, -1));
 
         btnLogin.setBackground(new java.awt.Color(51, 255, 0));
         btnLogin.setText("LOGIN");
         btnLogin.addActionListener(this::btnLoginActionPerformed);
-        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 227, -1, -1));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
 
         jLabel4.setText("Sudah Punya Akun?");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 268, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, -1));
 
         btnKeRegister.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnKeRegister.setForeground(new java.awt.Color(51, 255, 51));
@@ -90,14 +103,14 @@ public class Login extends javax.swing.JFrame {
                 btnKeRegisterMouseClicked(evt);
             }
         });
-        getContentPane().add(btnKeRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, -1, -1));
-        getContentPane().add(TxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 193, 199, -1));
+        getContentPane().add(btnKeRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, -1, -1));
+        getContentPane().add(TxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 199, -1));
 
         btnBatal.setBackground(new java.awt.Color(255, 51, 51));
         btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBatal.setText("<--");
         btnBatal.addActionListener(this::btnBatalActionPerformed);
-        getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 265, -1, -1));
+        getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -171,6 +184,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
