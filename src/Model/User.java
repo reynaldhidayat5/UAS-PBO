@@ -1,44 +1,73 @@
 package model;
 
+/**
+ * Class dasar User. Admin dan Pendaki merupakan turunan (extends) dari class ini.
+ */
 public class User {
-    private int idUser;
-    private String nama;
-    private String email;
-    private String noTelp;
-    private String password;
 
-    public User() {}
+    protected int idUser;
+    protected String nama;
+    protected String email;
+    protected String noHp;
+    protected String password;
 
-    public User(int idUser, String nama, String email, String noTelp, String password) {
+    public User() {
+    }
+
+    public User(int idUser, String nama, String email, String noHp, String password) {
         this.idUser = idUser;
         this.nama = nama;
         this.email = email;
-        this.noTelp = noTelp;
+        this.noHp = noHp;
         this.password = password;
     }
 
     public boolean login() {
-        
-        return true;
+        // logika login sesungguhnya ditangani oleh AuthController
+        return this.email != null && this.password != null;
     }
 
     public void logout() {
-        
+        this.idUser = 0;
     }
 
-    // Getters and Setters
-    public int getIdUser() { return idUser; }
-    public void setIdUser(int idUser) { this.idUser = idUser; }
+    public int getIdUser() {
+        return idUser;
+    }
 
-    public String getNama() { return nama; }
-    public void setNama(String nama) { this.nama = nama; }
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getNama() {
+        return nama;
+    }
 
-    public String getNoTelp() { return noTelp; }
-    public void setNoTelp(String noTelp) { this.noTelp = noTelp; }
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNoHp() {
+        return noHp;
+    }
+
+    public void setNoHp(String noHp) {
+        this.noHp = noHp;
+    }
 }

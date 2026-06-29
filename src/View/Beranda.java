@@ -4,6 +4,8 @@
  */
 package View;
 
+import model.Pendaki;
+
 /**
  *
  * @author reyna
@@ -17,6 +19,10 @@ public class Beranda extends javax.swing.JFrame {
      */
     public Beranda() {
         initComponents();
+    }
+
+    Beranda(Pendaki pendaki) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -34,7 +40,7 @@ public class Beranda extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnJadwal = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnPemesanan = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         btnLoginMenu = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -55,22 +61,21 @@ public class Beranda extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Contact Person");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 244, -1, -1));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\ChatGPT Image 26 Mei 2026, 12.49.02 (1).png")); // NOI18N
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         btnJadwal.setText("Cek Jadwal");
         btnJadwal.addActionListener(this::btnJadwalActionPerformed);
-        getContentPane().add(btnJadwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 6, -1, -1));
+        getContentPane().add(btnJadwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, -1, -1));
 
         jButton2.setText("Jalur Pendakian");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(309, 6, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, -1, -1));
 
-        jButton3.setText("Pemesanan");
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(433, 6, -1, -1));
+        btnPemesanan.setText("Pemesanan");
+        btnPemesanan.addActionListener(this::btnPemesananActionPerformed);
+        getContentPane().add(btnPemesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, -1, -1));
 
         jButton4.setText("Peraturan");
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(536, 6, -1, -1));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, -1, -1));
 
         btnLoginMenu.setBackground(new java.awt.Color(204, 255, 204));
         btnLoginMenu.setText("Login");
@@ -85,7 +90,7 @@ public class Beranda extends javax.swing.JFrame {
         jLabel7.setText("Instagram : @simaksi.lee");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 294, 160, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\pemandangan (1) (2).png")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 340));
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -102,6 +107,12 @@ public class Beranda extends javax.swing.JFrame {
         new Login().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLoginMenuActionPerformed
+
+    private void btnPemesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPemesananActionPerformed
+        // TODO add your handling code here:
+         new Pemesanan().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPemesananActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,8 +146,8 @@ public class Beranda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnJadwal;
     private javax.swing.JButton btnLoginMenu;
+    private javax.swing.JButton btnPemesanan;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

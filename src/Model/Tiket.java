@@ -1,13 +1,45 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Model;
+package model;
 
-/**
- *
- * @author Dino
- */
 public class Tiket {
-    
+
+    private int idTiket;
+    private String qrCode;
+    private int idBooking;
+
+    public Tiket() {
+    }
+
+    public Tiket(int idTiket, String qrCode, int idBooking) {
+        this.idTiket = idTiket;
+        this.qrCode = qrCode;
+        this.idBooking = idBooking;
+    }
+
+    public void cetakTiket() {
+        // logika cetak/generate PDF tiket dilakukan di view/controller terkait
+    }
+
+    public int getIdTiket() {
+        return idTiket;
+    }
+
+    public void setIdTiket(int idTiket) {
+        this.idTiket = idTiket;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    public int getIdBooking() {
+        return idBooking;
+    }
+
+    public void setIdBooking(int idBooking) {
+        this.idBooking = idBooking;
+    }
 }

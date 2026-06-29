@@ -4,6 +4,8 @@
  */
 package View;
 
+import model.Admin;
+
 /**
  *
  * @author reyna
@@ -17,6 +19,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
      */
     public DashboardAdmin() {
         initComponents();
+    }
+
+    DashboardAdmin(Admin admin) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**

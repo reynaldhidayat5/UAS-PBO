@@ -3,18 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
-import Model.Booking;
+import model.Booking;
+import controller.PemesananController;
 /**
  *
- * @author reyna
+ *
  */
 public class Pemesanan extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Pemesanan.class.getName());
 
     /**
-     * Creates new form Pemesanan
-     */
+     * 
     public Pemesanan() {
         initComponents();
         
@@ -114,8 +114,8 @@ public class Pemesanan extends javax.swing.JFrame {
                                     .addComponent(jLabel7))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTotalBiaya, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-                                    .addComponent(txtTanggalNaik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(txtTotalBiaya)
+                                    .addComponent(txtTanggalNaik, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -167,7 +167,7 @@ public class Pemesanan extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
+                .addContainerGap(123, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
@@ -178,14 +178,14 @@ public class Pemesanan extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 80));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 80));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -194,54 +194,52 @@ public class Pemesanan extends javax.swing.JFrame {
         // TODO add your handling code here:
                                                  
     String gunung = cbGunung.getSelectedItem().toString();
-    String jalur = cbJalur.getSelectedItem().toString();
-    String totalBiaya = txtTotalBiaya.getText();
+        String jalur = cbJalur.getSelectedItem().toString();
+        String totalBiaya = txtTotalBiaya.getText();
 
-    if (totalBiaya.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Silakan klik tombol Hitung Biaya terlebih dahulu!");
-        return;
-    }
+        if (totalBiaya.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Silakan klik tombol Hitung Biaya terlebih dahulu!");
+            return;
+        }
 
-    // 1. AMBIL TANGGAL: Mengambil data Date murni langsung dari JDateChooser
-    java.util.Date tglNaikTerpilih = txtTanggalNaik.getDate(); 
-    
-    if (tglNaikTerpilih == null) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Pilih tanggal naik terlebih dahulu melalui kalender!");
-        return;
-    }
-    
-    // Hitung otomatis tanggal turun (+2 hari)
-    long duaHari = 2L * 24 * 60 * 60 * 1000;
-    java.util.Date tglTurunOtomatis = new java.util.Date(tglNaikTerpilih.getTime() + duaHari);
+        // Ambil tanggal murni dari JDateChooser (txtTanggalNaik)
+        java.util.Date tglNaikTerpilih = txtTanggalNaik.getDate(); 
+        if (tglNaikTerpilih == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Pilih tanggal naik terlebih dahulu melalui kalender!");
+            return;
+        }
+        
+        // Hitung otomatis tanggal turun (+2 hari)
+        long duaHari = 2L * 24 * 60 * 60 * 1000;
+        java.util.Date tglTurunOtomatis = new java.util.Date(tglNaikTerpilih.getTime() + duaHari);
 
-    // 2. BINDING KE MODEL: Set nilai ke objek model Booking
-    Booking.setTanggalNaik(tglNaikTerpilih);
-    booking.setTanggalTurun(tglTurunOtomatis);
-    booking.setStatusBooking("Pending");
+        // 1. Masukkan nilai ke dalam objek model Booking
+        Booking bookingModel = new Booking();
+        bookingModel.setTanggalNaik(tglNaikTerpilih);
+        bookingModel.setTanggalTurun(tglTurunOtomatis);
+        bookingModel.setStatusBooking("Pending");
 
-    // 3. EKSEKUSI CONTROLLER: Kirim data model ke database
-    boolean sukses = pemesananController.simpanBooking(
-        gunung, 
-        jalur, 
-        bookingModel.getTanggalNaik(), 
-        bookingModel.getTanggalTurun()
-    );
-    
-    if (sukses) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Booking Berhasil Disimpan via JCalendar!");
-        new Peraturan().setVisible(true);
-        this.dispose();
-    }
+        // 2. Eksekusi Controller dengan melemparkan objek bookingModel
+        PemesananController bookingController = new PemesananController();
+        boolean sukses = bookingController.simpanBooking(bookingModel, gunung, jalur);
+        
+        if (sukses) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Booking Berhasil Disimpan!");
+            new Peraturan().setVisible(true);
+            this.dispose();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal menyimpan booking ke database!");
+        }
 
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
         // TODO add your handling code here:
                                                   
-    // 1. Ambil data Date murni dari JDateChooser
+    
     java.util.Date tglNaik = txtTanggalNaik.getDate(); 
     
-    // Validasi jika user belum memilih tanggal di kalender
+    
     if (tglNaik == null) {
         javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih Tanggal Naik pada kalender terlebih dahulu!");
         return;
@@ -254,7 +252,7 @@ public class Pemesanan extends javax.swing.JFrame {
     double tarifPerHari = 25000.0;
     double totalBiaya = durasiHari * tarifPerHari;
     
-    // 3. Tampilkan ke komponen txtTotalBiaya sesuai Class Diagram
+    
     txtTotalBiaya.setText(String.valueOf(totalBiaya));
 
     }//GEN-LAST:event_btnHitungActionPerformed
