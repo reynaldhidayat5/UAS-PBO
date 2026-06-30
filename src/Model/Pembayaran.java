@@ -19,9 +19,11 @@ public class Pembayaran {
         this.buktiPembayaran = buktiPembayaran;
         this.idBooking = idBooking;
     }
+    
+    
 
     public void uploadBuktiPembayaran() {
-        // disimpan ke kolom buktiPembayaran via controller
+        
     }
 
     public boolean prosesPembayaran() {

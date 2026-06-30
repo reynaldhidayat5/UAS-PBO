@@ -15,13 +15,15 @@ import model.Admin;
 public class DashboardAdmin extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashboardAdmin.class.getName());
-
+        private int idTerpilih = -1;
+        private String menuAktif = "";
     /**
      * Creates new form DashboardAdmin
      */
     public DashboardAdmin() {
         initComponents();
         jScrollPane1.setVisible(false);
+        
     }
 
     DashboardAdmin(Admin admin) {
@@ -45,12 +47,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnVerifikasiPendaftaran = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnKelolaJalur = new javax.swing.JButton();
+        btnCetakLaporan = new javax.swing.JButton();
+        btnKritikSaran = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tampilkanDIContent = new javax.swing.JTable();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,14 +110,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jButton2.setText("Verifikasi Pembayaran");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jButton3.setText("Kelola Jalur Pendakian");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        btnKelolaJalur.setText("Kelola Jalur Pendakian");
+        btnKelolaJalur.addActionListener(this::btnKelolaJalurActionPerformed);
 
-        jButton4.setText("Cetak Laporan");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        btnCetakLaporan.setText("Cetak Laporan");
+        btnCetakLaporan.addActionListener(this::btnCetakLaporanActionPerformed);
 
-        jButton5.setText("Kritik dan Saran");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
+        btnKritikSaran.setText("Kritik dan Saran");
+        btnKritikSaran.addActionListener(this::btnKritikSaranActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -129,13 +133,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
                         .addComponent(jButton2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton3))
+                        .addComponent(btnKelolaJalur))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnCetakLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnKritikSaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(692, 692, 692))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
@@ -152,11 +156,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(btnKelolaJalur)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(btnCetakLaporan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
+                .addComponent(btnKritikSaran)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -175,72 +179,164 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tampilkanDIContent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tampilkanDIContentMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tampilkanDIContent);
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
+
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(this::btnDeleteActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnUpdate)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDelete)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 240));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 280));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 70, 680, 270));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 670, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerifikasiPendaftaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifikasiPendaftaranActionPerformed
-       try {
-           jScrollPane1.setVisible(true);
-            // 1. Inisialisasi AdminController
-            controller.AdminController adminController = new controller.AdminController();
-            
-            // 2. Tampilkan data pendaftaran/pembayaran yang pending ke JTable 'tampilkanDIContent'
-            adminController.tampilkanPembayaranPending(tampilkanDIContent);
-            
-            // 3. Memberikan feedback informasi berhasil ke user
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Berhasil memuat data pendaftaran yang memerlukan verifikasi!", 
-                    "Informasi", 
-                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Terjadi kesalahan saat memuat data: " + e.getMessage(), 
-                    "Error", 
-                    javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+       menuAktif = "VERIFIKASI"; // Set menu aktif
+        jScrollPane1.setVisible(true); // Munculkan tabel
+        
+        controller.AdminController adminController = new controller.AdminController();
+        adminController.tampilkanPembayaranPending(tampilkanDIContent);
+        
+        this.revalidate();
+        this.repaint();
     }//GEN-LAST:event_btnVerifikasiPendaftaranActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnKelolaJalurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelolaJalurActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        menuAktif = "JALUR";
+        jScrollPane1.setVisible(true);
+        
+        // Memanggil fungsi load data jalur ke tabel (Sesuaikan dengan method di AdminController-mu)
+        // new controller.AdminController().tampilkanSemuaJalur(tampilkanDIContent);
+        
+        this.revalidate();
+        this.repaint();
+    }//GEN-LAST:event_btnKelolaJalurActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnCetakLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakLaporanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        menuAktif = "LAPORAN";
+        jScrollPane1.setVisible(true);
+        
+        // Memanggil LaporanController sesuai file contoh kodingan manual sebelumnya
+        controller.LaporanController laporanCtrl = new controller.LaporanController();
+        laporanCtrl.tampilkanLaporan(tampilkanDIContent);
+        
+        this.revalidate();
+        this.repaint();
+    }//GEN-LAST:event_btnCetakLaporanActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnKritikSaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKritikSaranActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        menuAktif = "KRITIK";
+        jScrollPane1.setVisible(true);
+        
+        controller.LaporanController laporanCtrl = new controller.LaporanController();
+        laporanCtrl.tampilkanKritikSaran(tampilkanDIContent);
+        
+        this.revalidate();
+        this.repaint();
+    }//GEN-LAST:event_btnKritikSaranActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void tampilkanDIContentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tampilkanDIContentMouseClicked
+        // TODO add your handling code here:
+        int baris = tampilkanDIContent.getSelectedRow();
+        if (baris != -1) {
+            // Mengambil ID dari kolom pertama (indeks 0)
+            idTerpilih = Integer.parseInt(tampilkanDIContent.getValueAt(baris, 0).toString());
+        }
+    }//GEN-LAST:event_tampilkanDIContentMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        if (idTerpilih == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih baris data pada tabel terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Lakukan pengecekan menu apa yang sedang aktif
+        if (menuAktif.equals("VERIFIKASI")) {
+            int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this, "Verifikasi pendaftaran dengan ID Booking: " + idTerpilih + " menjadi Lunas?", "Konfirmasi", javax.swing.JOptionPane.YES_NO_OPTION);
+            if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+                controller.PemesananController pemesananCtrl = new controller.PemesananController();
+                if (pemesananCtrl.verifikasiPembayaran(idTerpilih)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Pendaftaran berhasil diverifikasi!");
+                    // Refresh tabel pendaftaran pending
+                    new controller.AdminController().tampilkanPembayaranPending(tampilkanDIContent);
+                    idTerpilih = -1; // Reset ID setelah aksi
+                }
+            }
+        } else if (menuAktif.equals("JALUR")) {
+            // Logika jika yang di-update adalah data Jalur Pendakian
+            javax.swing.JOptionPane.showMessageDialog(this, "Buka form edit untuk ID Jalur: " + idTerpilih);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        if (idTerpilih == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih data yang ingin dihapus pada tabel!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data dengan ID: " + idTerpilih + "?", "Hapus Data", javax.swing.JOptionPane.YES_NO_OPTION);
+        if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+            
+            if (menuAktif.equals("VERIFIKASI")) {
+                // Contoh memanggil controller untuk hapus booking (bisa disesuaikan dengan method AdminController-mu)
+                // boolean sukses = new controller.AdminController().hapusBooking(idTerpilih);
+                // if (sukses) {
+                //     javax.swing.JOptionPane.showMessageDialog(this, "Data pendaftaran berhasil dihapus.");
+                //     new controller.AdminController().tampilkanPembayaranPending(tampilkanDIContent);
+                // }
+            } else if (menuAktif.equals("JALUR")) {
+                // Logika hapus jalur
+            }
+            
+            idTerpilih = -1; // Reset ID setelah dihapus
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,11 +364,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCetakLaporan;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnKelolaJalur;
+    private javax.swing.JButton btnKritikSaran;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnVerifikasiPendaftaran;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

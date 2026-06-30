@@ -105,6 +105,7 @@ public class Login extends javax.swing.JFrame {
         btnLogin.addActionListener(this::btnLoginActionPerformed);
         getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Belum Punya Akun?");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, -1));
 

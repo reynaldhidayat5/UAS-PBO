@@ -26,8 +26,35 @@ public class Pemesanan extends javax.swing.JFrame {
         initComponents();
         controller.BookingController bookingCtrl = new controller.BookingController();
         bookingCtrl.loadGunung((javax.swing.JComboBox) cbGunung);
+        generateIdBookingOtomatis();
     }
 
+    private void generateIdBookingOtomatis() {
+    String sql = "SELECT MAX(id_booking) AS last_id FROM booking";
+    // Menggunakan koneksi database yang sama dengan proyekmu
+    java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+    
+    try (java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+         java.sql.ResultSet rs = ps.executeQuery()) {
+        
+        int nextId = 1; // Default jika tabel booking masih kosong
+        
+        if (rs.next()) {
+            int lastId = rs.getInt("last_id");
+            nextId = lastId + 1; // ID berikutnya adalah ID terakhir + 1
+        }
+        
+        // Set angka ID baru tersebut ke JTextField txtIdBooking
+        txtIdBooking.setText(String.valueOf(nextId));
+        
+        // Kunci field-nya agar read-only (pendaki tidak bisa mengubah ID manual)
+        txtIdBooking.setEditable(false);
+        
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Gagal men-generate ID Booking: " + e.getMessage());
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,7 +79,7 @@ public class Pemesanan extends javax.swing.JFrame {
         txtTanggalNaik = new com.toedter.calendar.JDateChooser();
         jTextField4 = new javax.swing.JTextField();
         btnHitung = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnBayar = new javax.swing.JButton();
         cbGunung = new javax.swing.JComboBox<>();
         cbJalur = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
@@ -113,8 +140,9 @@ public class Pemesanan extends javax.swing.JFrame {
         btnHitung.setText("Hitung");
         btnHitung.addActionListener(this::btnHitungActionPerformed);
 
-        jButton2.setBackground(new java.awt.Color(204, 255, 204));
-        jButton2.setText("Bayar");
+        btnBayar.setBackground(new java.awt.Color(204, 255, 204));
+        btnBayar.setText("Bayar");
+        btnBayar.addActionListener(this::btnBayarActionPerformed);
 
         cbGunung.addActionListener(this::cbGunungActionPerformed);
 
@@ -130,7 +158,7 @@ public class Pemesanan extends javax.swing.JFrame {
                         .addGap(79, 79, 79)
                         .addComponent(btnHitung)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnBayar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +214,7 @@ public class Pemesanan extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHitung)
-                    .addComponent(jButton2))
+                    .addComponent(btnBayar))
                 .addContainerGap())
         );
 
@@ -271,6 +299,42 @@ public class Pemesanan extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_cbGunungActionPerformed
 
+    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        // TODO add your handling code here:
+        if (cbGunung.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(this, "Silakan pilih gunung terlebih dahulu!");
+        return;
+    }
+
+    try {
+        // 2. Ambil data dari komponen Form Pemesanan kamu
+        String kodeBooking = txtIdBooking.getText(); // Mengambil kode booking otomatis
+        String tujuanGunung = cbGunung.getSelectedItem().toString(); // Mengambil nama gunung
+        
+        // Mengambil total bayar (Sesuaikan jTextField4 jika itu adalah field total harga milikmu)
+        // Kita bersihkan dulu karakter "Rp", titik, atau spasi jika ada agar bisa diubah ke angka
+        String strTotal = jTextField4.getText().replaceAll("[^0-8]", ""); 
+        int totalBayar = strTotal.isEmpty() ? 0 : Integer.parseInt(strTotal);
+
+        // 3. PROSES SIMPAN KE DATABASE (Opsional - jika kamu sudah punya kodenya di Controller)
+        // Di sini biasanya kamu memanggil controller untuk insert data booking ke database, contoh:
+        // pemesananCtrl.simpanBooking(...);
+
+        // 4. BUKA FORM PEMBAYARAN DAN PASSING PARAMETERNYA
+        // Pastikan package 'View' ditulis dengan huruf besar/kecil yang sesuai
+        View.Pembayaran formBayar = new View.Pembayaran(kodeBooking, tujuanGunung, totalBayar);
+        formBayar.setVisible(true);
+
+        // 5. Tutup Form Pemesanan saat ini agar layar bersih
+        this.dispose();
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Format total bayar tidak valid: " + e.getMessage());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memproses pembayaran: " + e.getMessage());
+    }
+    }//GEN-LAST:event_btnBayarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -297,10 +361,10 @@ public class Pemesanan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBayar;
     private javax.swing.JButton btnHitung;
     private javax.swing.JComboBox<String> cbGunung;
     private javax.swing.JComboBox<String> cbJalur;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

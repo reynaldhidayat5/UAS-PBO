@@ -17,6 +17,8 @@ public class CekJadwal extends javax.swing.JFrame {
      */
     public CekJadwal() {
         initComponents();
+        controller.BookingController bookingCtrl = new controller.BookingController();
+        bookingCtrl.loadGunung((javax.swing.JComboBox) cbGunung);
     }
 
     /**
@@ -31,8 +33,9 @@ public class CekJadwal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableJadwal = new javax.swing.JTable();
         btnKembali = new javax.swing.JButton();
+        cbGunung = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -40,11 +43,9 @@ public class CekJadwal extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 236, -1, -1));
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(465, 183, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableJadwal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", null},
-                {"", "", null},
-                {null, null, null}
+
             },
             new String [] {
                 "Jalur", "Tanggal", "Sisa Kuota"
@@ -58,16 +59,20 @@ public class CekJadwal extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableJadwal);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 470, 280));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 470, 280));
 
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(this::btnKembaliActionPerformed);
-        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
+        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\reyna\\Downloads\\pemandangan (1) (1).png")); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 310));
+        cbGunung.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbGunung.addActionListener(this::cbGunungActionPerformed);
+        getContentPane().add(cbGunung, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 180, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 390));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -77,6 +82,30 @@ public class CekJadwal extends javax.swing.JFrame {
         new Beranda().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
+
+    private void cbGunungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGunungActionPerformed
+        // TODO add your handling code here:
+        if (cbGunung.getSelectedItem() == null) {
+        return;
+    }
+    
+    try {
+        // 2. Ambil objek Gunung dari item yang dipilih
+        model.Gunung gunungTerpilih = (model.Gunung) cbGunung.getSelectedItem();
+        int idGunung = gunungTerpilih.getIdGunung();
+        
+        // 3. Panggil BookingController untuk mengisi data kuota jalur ke JTable
+        controller.BookingController bookingCtrl = new controller.BookingController();
+        
+        // Ganti 'jTableJadwal' dengan nama variabel komponen JTable milikmu di form ini
+        bookingCtrl.tampilkanKuotaJadwal(idGunung, jTableJadwal); 
+        
+    } catch (ClassCastException e) {
+        System.out.println("Item di awal bukan objek Gunung: " + e.getMessage());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_cbGunungActionPerformed
 
     /**
      * @param args the command line arguments
@@ -105,10 +134,11 @@ public class CekJadwal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKembali;
+    private javax.swing.JComboBox<String> cbGunung;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableJadwal;
     // End of variables declaration//GEN-END:variables
 }
