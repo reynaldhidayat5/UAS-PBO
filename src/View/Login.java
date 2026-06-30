@@ -41,6 +41,7 @@ public class Login extends javax.swing.JFrame {
         btnKeRegister = new javax.swing.JLabel();
         TxtPassword = new javax.swing.JPasswordField();
         btnBatal = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
 
         jLabel6.setText("jLabel6");
 
@@ -60,11 +61,15 @@ public class Login extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(54, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addGap(88, 88, 88))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jLabel1)
                 .addGap(133, 133, 133))
         );
@@ -73,22 +78,25 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5))))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 70));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Email");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 53, -1));
         getContentPane().add(TxtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 199, -1));
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Password");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, -1, -1));
 
@@ -116,6 +124,9 @@ public class Login extends javax.swing.JFrame {
         btnBatal.setText("<--");
         btnBatal.addActionListener(this::btnBatalActionPerformed);
         getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (3).png"))); // NOI18N
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 400, 230));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -192,6 +203,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 

@@ -51,6 +51,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tampilkanDIContent = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -191,6 +192,9 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 240));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 70, 680, 270));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -272,6 +276,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

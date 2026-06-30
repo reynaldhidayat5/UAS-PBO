@@ -133,11 +133,11 @@ public class Registrasi extends javax.swing.JFrame {
 
         btnBatal.setText("Batal");
         btnBatal.addActionListener(this::btnBatalActionPerformed);
-        getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 355, 75, -1));
+        getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 75, -1));
 
         btnRegister.setText("Daftar");
         btnRegister.addActionListener(this::btnRegisterActionPerformed);
-        getContentPane().add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 355, 90, -1));
+        getContentPane().add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 350, 90, -1));
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 0));
 

@@ -28,14 +28,17 @@ public class Laporan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -58,8 +61,11 @@ public class Laporan extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 360, 220));
 
+        jButton1.setText("Kembali");
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (3).png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, 260));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, 300));
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 0));
 
@@ -92,9 +98,6 @@ public class Laporan extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 400, 240));
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -124,6 +127,7 @@ public class Laporan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
