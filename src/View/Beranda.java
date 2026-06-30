@@ -110,7 +110,7 @@ public class Beranda extends javax.swing.JFrame {
 
     private void btnPemesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPemesananActionPerformed
         // TODO add your handling code here:
-         new Pemesanan().setVisible(true);
+         new Peraturan().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPemesananActionPerformed
 
