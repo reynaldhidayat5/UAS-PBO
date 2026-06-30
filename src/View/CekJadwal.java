@@ -61,7 +61,7 @@ public class CekJadwal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableJadwal);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 470, 280));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 470, 280));
 
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(this::btnKembaliActionPerformed);
@@ -69,7 +69,7 @@ public class CekJadwal extends javax.swing.JFrame {
 
         cbGunung.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbGunung.addActionListener(this::cbGunungActionPerformed);
-        getContentPane().add(cbGunung, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 180, -1));
+        getContentPane().add(cbGunung, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 180, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 390));
