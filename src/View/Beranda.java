@@ -74,8 +74,8 @@ public class Beranda extends javax.swing.JFrame {
         btnPemesanan.addActionListener(this::btnPemesananActionPerformed);
         getContentPane().add(btnPemesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, -1, -1));
 
-        jButton4.setText("Peraturan");
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, -1, -1));
+        jButton4.setText("Promo");
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
 
         btnLoginMenu.setBackground(new java.awt.Color(204, 255, 204));
         btnLoginMenu.setText("Login");

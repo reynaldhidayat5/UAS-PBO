@@ -68,5 +68,25 @@ public class BookingController {
             e.printStackTrace();
         }
         table.setModel(model);
+        
     }
+    public model.Promo cekPromoDatabase(String kodePromo) {
+    // Sesuaikan nama tabel dan kolom dengan database milikmu
+    String sql = "SELECT * FROM promo WHERE kode_promo = ?";
+    try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
+        ps.setString(1, kodePromo);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            // Asumsi model Promo memiliki constructor: Promo(id, kode, persentaseDiskon)
+            // Atau sesuaikan dengan tipe data di kelas model.Promo milikmu
+            model.Promo promo = new model.Promo();
+            promo.setKodePromo(rs.getString("kode_promo"));
+            promo.setDiskon(rs.getDouble("diskon")); // Misal menyimpan angka desimal seperti 0.20 untuk 20% atau persenan biasa
+            return promo;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null; // Mengembalikan null jika kode promo tidak ditemukan di DB
+}
 }
