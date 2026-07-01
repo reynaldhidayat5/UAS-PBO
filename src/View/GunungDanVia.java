@@ -36,6 +36,7 @@ public class GunungDanVia extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -64,6 +65,9 @@ public class GunungDanVia extends javax.swing.JFrame {
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 130, 150));
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 48, 130, -1));
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 110, 30));
+
+        jLabel3.setText("Jalur ");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 360, 220));
 
@@ -137,6 +141,7 @@ public class GunungDanVia extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

@@ -10,6 +10,7 @@ public class User {
     protected String email;
     protected String noHp;
     protected String password;
+    private String role;
 
     public User() {
     }
@@ -39,9 +40,14 @@ public class User {
         this.idUser = idUser;
     }
 
-    public String getNama() {
-        return nama;
-    }
+    // Tambahkan ini di dalam class User (model/User.java)
+public String getNama() {
+    return this.nama;
+}
+
+public String getRole() {
+    return this.role;
+}
 
     public void setNama(String nama) {
         this.nama = nama;

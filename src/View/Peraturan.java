@@ -17,6 +17,10 @@ public class Peraturan extends javax.swing.JFrame {
      */
     public Peraturan() {
         initComponents();
+        this.setLocationRelativeTo(null); // Agar form di tengah (opsional)
+        
+        // 1. TAMBAHKAN KODE INI UNTUK MENGUNCI TOMBOL LANJUTKAN
+        btnLanjut.setEnabled(false);
     }
 
     /**
@@ -29,7 +33,7 @@ public class Peraturan extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnKembali = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -46,10 +50,10 @@ public class Peraturan extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        chek = new java.awt.Checkbox();
-        jButton2 = new javax.swing.JButton();
+        btnLanjut = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        chek = new java.awt.Checkbox();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,9 +63,9 @@ public class Peraturan extends javax.swing.JFrame {
         jLabel1.setText("Peraturan");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, -1));
 
-        jButton1.setText("Kembali");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, 20));
+        btnKembali.setText("Kembali");
+        btnKembali.addActionListener(this::btnKembaliActionPerformed);
+        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, 20));
 
         jPanel1.add(jLabel3);
 
@@ -173,15 +177,14 @@ public class Peraturan extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 210, 300));
 
-        chek.setLabel("checkbox1");
-        getContentPane().add(chek, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 340, 20, -1));
-
-        jButton2.setText("Lanjutkan");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, -1, -1));
+        btnLanjut.setText("Lanjutkan");
+        btnLanjut.addActionListener(this::btnLanjutActionPerformed);
+        getContentPane().add(btnLanjut, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, -1, -1));
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Saya sudah membaca seluruh peraturan");
+
+        chek.addItemListener(this::chekItemStateChanged);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -189,17 +192,21 @@ public class Peraturan extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chek, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jLabel4)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(chek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 340, 230, 20));
+        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 340, 270, 20));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 380));
@@ -207,13 +214,27 @@ public class Peraturan extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        new Beranda().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnKembaliActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnLanjutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanjutActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        new Pemesanan().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLanjutActionPerformed
+
+    private void chekItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chekItemStateChanged
+        // TODO add your handling code here:
+        if (chek.getState() == true) {
+            btnLanjut.setEnabled(true);  // Tombol Lanjutkan bisa dipencet
+        } else {
+            // Jika centangan dihilangkan (false)
+            btnLanjut.setEnabled(false); // Tombol kembali dikunci
+        }
+    }//GEN-LAST:event_chekItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -241,9 +262,9 @@ public class Peraturan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnKembali;
+    private javax.swing.JButton btnLanjut;
     private java.awt.Checkbox chek;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

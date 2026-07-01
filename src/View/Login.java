@@ -4,6 +4,8 @@
  */
 package View;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author reyna
@@ -63,7 +65,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(54, Short.MAX_VALUE)
+                        .addContainerGap(24, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addGap(88, 88, 88))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -87,7 +89,7 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 70));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 70));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -127,7 +129,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (3).png"))); // NOI18N
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 400, 230));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 390, 230));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -143,27 +145,41 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-       String email = TxtEmail.getText();
-       String password = new String(TxtPassword.getPassword());
+       String email = TxtEmail.getText().trim();
+    String password = new String(TxtPassword.getPassword()).trim();
 
     // Validasi input kosong
     if (email.isEmpty() || password.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Email dan Password tidak boleh kosong!");
+        JOptionPane.showMessageDialog(this, "Email dan Password tidak boleh kosong!", "Peringatan", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Panggil AuthController untuk validasi ke DB
+    // Memanggil AuthController untuk cek login
     controller.AuthController auth = new controller.AuthController();
-    String role = auth.login(email, password);
+    model.User userSukses = auth.loginUser(email, password);
 
-    if (role != null) {
-        if (role.equalsIgnoreCase("Admin")) {
-            // new AdminDashboardView().setVisible(true);
+    if (userSukses != null) {
+        JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat Datang, " + userSukses.getNama());
+        
+        // CEK ROLE USER YANG LOGIN
+        if ("admin".equalsIgnoreCase(userSukses.getRole())) {
+            // Jika login sebagai Admin, buka Dashboard Admin
+            // (Ganti 'DashboardAdmin' dengan nama class JFrame Admin milikmu jika berbeda)
+            View.DashboardAdmin adminPage = new View.DashboardAdmin();
+            adminPage.setVisible(true);
         } else {
-            // new BookingFormView().setVisible(true);
+            // JIKA LOGIN SEBAGAI PENDAKI, LANGSUNG BUKA BERANDA
+            // (Pastikan nama class Beranda milikmu sudah sesuai, misal 'Beranda' atau 'MainFrame')
+            View.Beranda berandaPage = new View.Beranda(); 
+            berandaPage.setVisible(true);
         }
-        this.dispose(); // Menutup form login
-    } // TODO add your handling code here:
+
+        // Tutup halaman login saat ini
+        this.dispose();
+    } else {
+        // Jika email atau password salah
+        JOptionPane.showMessageDialog(this, "Email atau Password salah!", "Gagal Login", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

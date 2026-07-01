@@ -116,6 +116,21 @@ public class AuthController {
     }
 
     public String login(String email, String password) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String sql = "SELECT role FROM users WHERE email = ? AND password = ?";
+        try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            
+            // Jika data email dan password ditemukan di database
+            if (rs.next()) {
+                return rs.getString("role"); // Kembalikan rolenya (Admin / Pendaki)
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        // Jika email/password salah atau tidak ditemukan, kembalikan null
+        return null; 
     }
 }

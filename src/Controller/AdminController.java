@@ -66,4 +66,32 @@ public class AdminController {
             return false;
         }
     }
+    public DefaultTableModel getPembayaranMenungguVerifikasi() {
+        // Kolom yang akan ditampilkan di tabel admin
+        String[] header = {"ID Booking", "ID User", "Metode", "Status", "Bukti File"};
+        DefaultTableModel modelTabel = new DefaultTableModel(null, header);
+        
+        // Query untuk mengambil data booking yang menunggu verifikasi
+        String sql = "SELECT id_booking, id_user, metode_pembayaran, status_pembayaran, bukti_pembayaran FROM booking WHERE status_pembayaran = 'Menunggu Verifikasi'";
+        
+        try (Connection conn = Koneksi.getInstance().getKoneksi();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                Object[] baris = new Object[5];
+                baris[0] = rs.getInt("id_booking");
+                baris[1] = rs.getInt("id_user");
+                baris[2] = rs.getString("metode_pembayaran");
+                baris[3] = rs.getString("status_pembayaran");
+                baris[4] = rs.getString("bukti_pembayaran"); // Path file/gambar struk
+                
+                modelTabel.addRow(baris);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error ambil data verifikasi: " + e.getMessage());
+        }
+        
+        return modelTabel;
+    }
 }

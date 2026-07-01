@@ -11,8 +11,35 @@ package View;
 public class Pembayaran extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Pembayaran.class.getName());
+    private String pathBuktiBaru = null;
     public Pembayaran() {
         initComponents();
+    }
+    private void updateQRImage() {
+        String metode = cbMetodePembayaran.getSelectedItem().toString();
+        
+        try {
+            // Cek pilihan metode pembayaran dan set icon (gambar) yang sesuai
+            if (metode.equalsIgnoreCase("GOPAY")) {
+                // Mengambil gambar dari package 'images'
+                lblQR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Qr.png")));
+                lblQR.setText(""); // Kosongkan teks agar tidak menimpa gambar
+                
+            } else if (metode.equalsIgnoreCase("OVO")) {
+                lblQR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Qr.png")));
+                lblQR.setText("");
+                
+            } else {
+                // Untuk transfer bank atau metode lainnya
+                lblQR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Qr.png")));
+                lblQR.setText("");
+            }
+        } catch (Exception e) {
+            // Jika nama file gambar salah atau gambar tidak ditemukan di folder images
+            lblQR.setIcon(null); // Hapus gambar sebelumnya (jika ada)
+            lblQR.setText("Gambar QR belum tersedia");
+            System.out.println("Error load gambar: " + e.getMessage());
+        }
     }
     /**
      * Creates new form Pembayaran
@@ -49,6 +76,9 @@ public class Pembayaran extends javax.swing.JFrame {
         lblKodeBooking = new javax.swing.JLabel();
         lblTujuanGunung = new javax.swing.JLabel();
         lblTotalBiaya = new javax.swing.JLabel();
+        btnUpload = new javax.swing.JButton();
+        lblNamaFile = new javax.swing.JLabel();
+        btnKonfirmasi = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,113 +86,117 @@ public class Pembayaran extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 0));
         jPanel1.setForeground(new java.awt.Color(0, 153, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 30)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Pembayaran");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel3)
-                .addGap(0, 111, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 50));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 50));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 6));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setText("Kode Booking");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 15, -1, -1));
 
         jLabel5.setText("Tujuan Gunung");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 46, -1, -1));
 
         jLabel6.setText("Metode Pembayaran");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 77, -1, -1));
 
         jLabel7.setText("Total Biaya");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 108, -1, -1));
 
         lblQR.setText("QR");
+        jPanel2.add(lblQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 142, 260, 250));
 
         cbMetodePembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GOPAY", "DANA", "SHOPEE PAY", "BNI", "BRI", "MANDIRI", "BCA" }));
+        cbMetodePembayaran.addActionListener(this::cbMetodePembayaranActionPerformed);
+        jPanel2.add(cbMetodePembayaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 74, -1, -1));
 
         lblKodeBooking.setText("kode");
+        jPanel2.add(lblKodeBooking, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 15, -1, -1));
 
         lblTujuanGunung.setText("tujuan");
+        jPanel2.add(lblTujuanGunung, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 46, -1, -1));
 
         lblTotalBiaya.setText("Total");
+        jPanel2.add(lblTotalBiaya, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 108, -1, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(lblQR, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbMetodePembayaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTotalBiaya)
-                    .addComponent(lblTujuanGunung)
-                    .addComponent(lblKodeBooking))
-                .addContainerGap(53, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(lblKodeBooking))
-                .addGap(15, 15, 15)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(lblTujuanGunung))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel6))
-                    .addComponent(cbMetodePembayaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(lblTotalBiaya))
-                .addGap(24, 24, 24)
-                .addComponent(lblQR, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 320, 410));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 320, 210));
+        btnUpload.setText("Upload Bukti");
+        btnUpload.addActionListener(this::btnUploadActionPerformed);
+        getContentPane().add(btnUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (3).png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 400, 260));
+        lblNamaFile.setForeground(new java.awt.Color(255, 255, 255));
+        lblNamaFile.setText("File");
+        getContentPane().add(lblNamaFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 120, -1, -1));
+
+        btnKonfirmasi.setText("Konfirmasi");
+        btnKonfirmasi.addActionListener(this::btnKonfirmasiActionPerformed);
+        getContentPane().add(btnKonfirmasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, 100, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 550, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbMetodePembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMetodePembayaranActionPerformed
+        // TODO add your handling code here:
+        updateQRImage();
+    }//GEN-LAST:event_cbMetodePembayaranActionPerformed
+
+    private void btnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadActionPerformed
+        // TODO add your handling code here:
+        javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+    // Filter hanya untuk file gambar
+    javax.swing.filechooser.FileNameExtensionFilter filter = new javax.swing.filechooser.FileNameExtensionFilter("Images", "jpg", "png", "jpeg");
+    chooser.setFileFilter(filter);
+    
+    int returnVal = chooser.showOpenDialog(this);
+    if(returnVal == javax.swing.JFileChooser.APPROVE_OPTION) {
+        java.io.File file = chooser.getSelectedFile();
+        pathBuktiBaru = file.getAbsolutePath(); // Ambil lokasi file di komputer
+        lblNamaFile.setText(file.getName());    // Tampilkan nama file di label
+    }
+    }//GEN-LAST:event_btnUploadActionPerformed
+
+    private void btnKonfirmasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKonfirmasiActionPerformed
+        // TODO add your handling code here:
+        if (pathBuktiBaru == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silakan unggah bukti pembayaran terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    String kodeBooking = lblKodeBooking.getText();
+    
+    // Query SQL untuk mengupdate bukti_pembayaran dan mengubah status menjadi Menunggu Verifikasi
+    String sql = "UPDATE booking SET bukti_pembayaran = ?, status_pembayaran = 'Menunggu Verifikasi' WHERE id_booking = ?";
+    
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+         
+        ps.setString(1, pathBuktiBaru); // Atau nama filenya saja yang disimpan
+        ps.setString(2, kodeBooking);
+        
+        int rows = ps.executeUpdate();
+        if (rows > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Bukti berhasil dikirim! Menunggu verifikasi admin.");
+            this.dispose(); // Tutup halaman pembayaran
+        }
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal mengirim bukti: " + e.getMessage());
+    }
+    }//GEN-LAST:event_btnKonfirmasiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,6 +224,8 @@ public class Pembayaran extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnKonfirmasi;
+    private javax.swing.JButton btnUpload;
     private javax.swing.JComboBox<String> cbMetodePembayaran;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -201,6 +237,7 @@ public class Pembayaran extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblKodeBooking;
+    private javax.swing.JLabel lblNamaFile;
     private javax.swing.JLabel lblQR;
     private javax.swing.JLabel lblTotalBiaya;
     private javax.swing.JLabel lblTujuanGunung;
