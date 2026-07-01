@@ -89,12 +89,12 @@ public class Pembayaran extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 30)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Pembayaran");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 50));
 
@@ -114,7 +114,7 @@ public class Pembayaran extends javax.swing.JFrame {
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 108, -1, -1));
 
         lblQR.setText("QR");
-        jPanel2.add(lblQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 142, 260, 250));
+        jPanel2.add(lblQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 260, 250));
 
         cbMetodePembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GOPAY", "DANA", "SHOPEE PAY", "BNI", "BRI", "MANDIRI", "BCA" }));
         cbMetodePembayaran.addActionListener(this::cbMetodePembayaranActionPerformed);
