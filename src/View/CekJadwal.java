@@ -90,14 +90,14 @@ public class CekJadwal extends javax.swing.JFrame {
     }
     
     try {
-        // 2. Ambil objek Gunung dari item yang dipilih
+       
         model.Gunung gunungTerpilih = (model.Gunung) cbGunung.getSelectedItem();
         int idGunung = gunungTerpilih.getIdGunung();
         
-        // 3. Panggil BookingController untuk mengisi data kuota jalur ke JTable
+        
         controller.BookingController bookingCtrl = new controller.BookingController();
         
-        // Ganti 'jTableJadwal' dengan nama variabel komponen JTable milikmu di form ini
+       
         bookingCtrl.tampilkanKuotaJadwal(idGunung, jTableJadwal); 
         
     } catch (ClassCastException e) {

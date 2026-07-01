@@ -150,18 +150,18 @@ public class Registrasi extends javax.swing.JFrame {
     String nik = txtNik.getText();
     String password = txtPassword.getText();
 
-    // Validasi data input
+    
     if (nama.isEmpty() || email.isEmpty() || password.isEmpty() || nik.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, "Semua baris input wajib diisi!");
         return;
     }
 
-    // Kirim data ke AuthController
+    
     controller.AuthController auth = new controller.AuthController();
     boolean sukses = auth.registerPendaki(nama, email, noTelp, password, nik);
     
     if (sukses) {
-        // Kembali ke Halaman Login
+       
         new Login().setVisible(true);
         this.dispose();
     }

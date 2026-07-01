@@ -69,15 +69,14 @@ public class AdminController {
     public javax.swing.table.DefaultTableModel getPembayaranMenungguVerifikasi() {
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel();
     
-    // Atur kolom sesuai kebutuhan data yang ingin ditampilkan admin
+    
     model.addColumn("ID Booking");
     model.addColumn("Nama Pendaki");
     model.addColumn("Jalur");
     model.addColumn("Status Pendaftaran");
     model.addColumn("Status Pembayaran");
 
-    // QUERY UTAMA: Hanya mengambil data yang pendaftarannya sudah disetujui 
-    // DAN pendaki sudah upload bukti (status_pembayaran = 'Menunggu Verifikasi')
+    
     String sql = "SELECT id_booking, nama_pendaki, nama_jalur, status_pendaftaran, status_pembayaran " +
                  "FROM booking " +
                  "WHERE status_pendaftaran = 'Disetujui' AND status_pembayaran = 'Menunggu Verifikasi'";

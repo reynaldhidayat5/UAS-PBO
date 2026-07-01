@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Aduan_dan_Kritik_Saran {
 
     private int idReport;
-    private String tipeAduan; // Kritik, Saran, Masalah
+    private String tipeAduan; 
     private String isiPesan;
     private int idPendaki;
 

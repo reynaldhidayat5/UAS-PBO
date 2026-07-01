@@ -23,7 +23,6 @@ public class Laporan {
         this.jenisLaporan = jenisLaporan;
     }
 
-    /** Mengambil rekap semua riwayat pemesanan pendaki dari database. */
     public List<Object[]> generateLaporan() {
         List<Object[]> data = new ArrayList<>();
         String sql = "SELECT b.id_booking, p.nama, g.nama_gunung, j.nama_jalur, "
@@ -53,7 +52,7 @@ public class Laporan {
         return data;
     }
 
-    /** Menampilkan data laporan ke dalam JTable yang diberikan. */
+   
     public void tampilkanKeTabel(JTable table) {
         String[] kolom = {"ID Booking", "Nama Pendaki", "Gunung", "Jalur", "Tgl Naik", "Status", "Total Biaya"};
         DefaultTableModel model = new DefaultTableModel(kolom, 0);
@@ -64,7 +63,6 @@ public class Laporan {
     }
 
     public void exportToPDF() {
-        // Implementasi export PDF dapat memakai library iText / OpenPDF.
         JOptionPane.showMessageDialog(null, "Fitur cetak PDF memerlukan library tambahan "
                 + "(misal iText/OpenPDF). Silakan tambahkan library tersebut ke project.");
     }

@@ -34,12 +34,12 @@ public Report_Pendaki(int id_pendaki) {
     initComponents(); // Ini untuk menggambar tombol dan checkbox
     this.id_pendaki_aktif = id_pendaki;
     
-    // AMANKAN DI SINI: Jangan biarkan error database merusak tombol UI
+    
     try {
         loadRiwayatPesanan(); 
     } catch (Exception e) {
         System.out.println("Error load data: " + e.getMessage());
-        // Aplikasi tidak akan crash, tombol centang kamu tetap akan berfungsi normal
+        
     }
 }
     /**
@@ -126,6 +126,9 @@ public Report_Pendaki(int id_pendaki) {
         btnKirim.setText("Kirim Aduan");
         btnKirim.addActionListener(this::btnKirimActionPerformed);
 
+        cbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kritik", "Saran", "Fasilitas", "Keamanan", "Lainnya" }));
+        cbKategori.addActionListener(this::cbKategoriActionPerformed);
+
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Kategori    :");
 
@@ -142,7 +145,7 @@ public Report_Pendaki(int id_pendaki) {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(37, 37, 37)
+                                .addGap(18, 18, 18)
                                 .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(209, 209, 209)
@@ -228,30 +231,33 @@ public Report_Pendaki(int id_pendaki) {
 
     private void btnKirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKirimActionPerformed
         // TODO add your handling code here:
-        String tipe = cbKategori.getSelectedItem().toString(); // Sudah sesuai dengan nama variabel JComboBox kamu
-    String isiPesan = txtIsiPesan.getText().trim(); // PENTING: Ganti 'txtIsiPesan' dengan nama variabel JTextArea kamu!
+       String kategoriPilihan = cbKategori.getSelectedItem().toString(); 
+    String isiPesan = txtIsiPesan.getText().trim(); 
 
-    // 2. Validasi agar input tidak kosong
+   if (kategoriPilihan.equals("-- Pilih Kategori --")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih kategori laporan terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        
+        return;
+   }
     if (isiPesan.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, "Isi aduan/kritik/saran tidak boleh kosong!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // 3. Query SQL untuk memasukkan data ke tabel report
-    // (Sesuaikan susunan kolom 'tipe_aduan', 'isi_pesan', atau 'isi_report' dengan database MySQL kamu)
+    
     String sql = "INSERT INTO report (tipe_aduan, isi_pesan, id_pendaki) VALUES (?, ?, ?)";
 
     try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
          java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        ps.setString(1, tipe);
+        ps.setString(1, kategoriPilihan);
         ps.setString(2, isiPesan);
-        ps.setInt(3, this.id_pendaki_aktif); // Menggunakan ID Pendaki aktif yang sedang login
+        ps.setInt(3, this.id_pendaki_aktif); 
 
         int rowsInserted = ps.executeUpdate();
         if (rowsInserted > 0) {
             javax.swing.JOptionPane.showMessageDialog(this, "Berhasil! Laporan atau kritik & saran Anda telah dikirim ke Admin.");
-            txtIsiPesan.setText(""); // Kosongkan kembali form JTextArea setelah berhasil dikirim
+            txtIsiPesan.setText(""); 
         }
 
     } catch (Exception e) {
@@ -262,14 +268,14 @@ public Report_Pendaki(int id_pendaki) {
 
     private void btnCetakPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakPDFActionPerformed
         // TODO add your handling code here:
-        int row = jTable1.getSelectedRow(); // Sesuaikan jTable1 dengan nama variabel tabelmu
+        int row = jTable1.getSelectedRow(); 
     
     if (row == -1) {
         JOptionPane.showMessageDialog(this, "Silakan pilih data pesanan di tabel terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
         return;
     }
     
-    // 2. Ambil data dari baris yang dipilih
+    
     String idBooking = jTable1.getValueAt(row, 0).toString();
     String gunung = jTable1.getValueAt(row, 1).toString();
     String jalur = jTable1.getValueAt(row, 2).toString();
@@ -277,24 +283,23 @@ public Report_Pendaki(int id_pendaki) {
     String totalBiaya = jTable1.getValueAt(row, 4).toString();
     String status = jTable1.getValueAt(row, 5).toString();
     
-    // 3. Tentukan nama dan lokasi file PDF
+    
     String namaFile = "Struk_Booking_" + idBooking + ".pdf";
     
     try {
-        // 4. Buat ukuran kertas mirip Struk Kasir (Lebar 250, Tinggi 400)
+        
         Rectangle ukuranStruk = new Rectangle(250, 400);
-        Document document = new Document(ukuranStruk, 15, 15, 20, 20); // (ukuran, margin kiri, kanan, atas, bawah)
+        Document document = new Document(ukuranStruk, 15, 15, 20, 20); 
         
         PdfWriter.getInstance(document, new FileOutputStream(namaFile));
         document.open();
         
-        // 5. Setup Font untuk Struk
+       
         Font fontHeader = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
         Font fontBody = new Font(Font.FontFamily.COURIER, 9, Font.NORMAL); // Pake font Courier agar rapi seperti mesin kasir
         Font fontBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
         
-        // 6. Desain Isi Struk
-        // -- HEADER --
+        
         Paragraph namaToko = new Paragraph("SIMAKSI GUNUNG", fontHeader);
         namaToko.setAlignment(Element.ALIGN_CENTER);
         document.add(namaToko);
@@ -303,7 +308,7 @@ public Report_Pendaki(int id_pendaki) {
         alamat.setAlignment(Element.ALIGN_CENTER);
         document.add(alamat);
         
-        // -- BODY (INFO BOOKING) --
+       
         document.add(new Paragraph("ID Booking : " + idBooking, fontBody));
         document.add(new Paragraph("Tgl Naik   : " + tglNaik, fontBody));
         document.add(new Paragraph("------------------------------", fontBody));
@@ -313,22 +318,22 @@ public Report_Pendaki(int id_pendaki) {
         document.add(new Paragraph("Status     : " + status, fontBody));
         document.add(new Paragraph("------------------------------", fontBody));
         
-        // -- TOTAL BIAYA --
+        
         Paragraph total = new Paragraph("TOTAL      : " + totalBiaya, fontBold);
         total.setAlignment(Element.ALIGN_RIGHT);
         document.add(total);
         
         document.add(new Paragraph("==============================", fontBody));
         
-        // -- FOOTER --
+        
         Paragraph footer = new Paragraph("Terima kasih!\nSimpan struk ini sbg bukti.", fontBody);
         footer.setAlignment(Element.ALIGN_CENTER);
         document.add(footer);
         
-        // 7. Tutup dokumen
+        
         document.close();
         
-        // 8. Buka otomatis file PDF-nya setelah berhasil dibuat
+        
         JOptionPane.showMessageDialog(this, "Struk PDF berhasil dicetak!");
         File filePdf = new File(namaFile);
         if (filePdf.exists()) {
@@ -340,8 +345,13 @@ public Report_Pendaki(int id_pendaki) {
         e.printStackTrace();
     }
     }//GEN-LAST:event_btnCetakPDFActionPerformed
+
+    private void cbKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbKategoriActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbKategoriActionPerformed
 public void loadRiwayatPesanan() {
-    // 1. Cek ID berapa yang sebenarnya sedang dipakai program
+    
     System.out.println("Mencari data untuk ID Pendaki: " + this.id_pendaki_aktif);
     
     String[] kolom = {"ID Booking", "Gunung", "Jalur", "Tanggal Naik", "Total Biaya", "Status"};
@@ -361,7 +371,7 @@ public void loadRiwayatPesanan() {
         
         int jumlahData = 0;
         
-        // 2. Mengecek apakah database menemukan datanya
+        
         while (rs.next()) {
             jumlahData++;
             System.out.println("-> Ketemu Data! ID Booking: " + rs.getString("id_booking") + 
@@ -380,7 +390,7 @@ public void loadRiwayatPesanan() {
         System.out.println("Total data yang berhasil ditarik: " + jumlahData);
         System.out.println("=================================");
         
-        // 3. Masukkan ke tabel
+        
         jTable1.setModel(model); 
         
     } catch (Exception e) {

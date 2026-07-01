@@ -16,15 +16,15 @@ public class Admin extends User {
     }
 
     public void verifikasiPendaftaran() {
-        // diimplementasikan melalui AdminController + PendakiController
+       
     }
 
     public void verifikasiPembayaran() {
-        // diimplementasikan melalui AdminController + PemesananController
+        
     }
 
     public void kelolaJalurPendakian() {
-        // diimplementasikan melalui AdminController
+        
     }
 
     public void cetakLaporan(model.Laporan l) {
@@ -34,7 +34,7 @@ public class Admin extends User {
     }
 
     public void bacaKritikSaran(model.Aduan_dan_Kritik_Saran r) {
-        // menampilkan isi report pada DashboardAdmin
+        
     }
 
     public int getIdAdmin() {

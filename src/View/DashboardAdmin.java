@@ -25,6 +25,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         initComponents();
         jScrollPane1.setVisible(false);
         btnCetak.setVisible(false);
+        btnLihatBukti.setVisible(false);
         
     }
 
@@ -59,6 +60,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnCetak = new javax.swing.JButton();
+        btnLihatBukti = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -167,7 +169,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(this::btnUpdateActionPerformed);
-        jPanel3.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 240, -1, -1));
+        jPanel3.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, -1, -1));
 
         btnDelete.setText("Delete");
         btnDelete.addActionListener(this::btnDeleteActionPerformed);
@@ -175,7 +177,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         btnCetak.setText("CETAK");
         btnCetak.addActionListener(this::btnCetakActionPerformed);
-        jPanel3.add(btnCetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, -1, -1));
+        jPanel3.add(btnCetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, -1, -1));
+
+        btnLihatBukti.setText("Lihat Bukti");
+        btnLihatBukti.addActionListener(this::btnLihatBuktiActionPerformed);
+        jPanel3.add(btnLihatBukti, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, -1, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 280));
 
@@ -191,6 +197,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnUpdate.setVisible(true);
     btnDelete.setVisible(true);
     btnCetak.setVisible(false);
+    btnLihatBukti.setVisible(false);
         loadDataVerifikasiPendaftaran();
     }//GEN-LAST:event_btnVerifikasiPendaftaranActionPerformed
 
@@ -200,6 +207,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     btnUpdate.setVisible(true);
     btnDelete.setVisible(true);
     btnCetak.setVisible(false);
+    btnLihatBukti.setVisible(true);
     // Panggil fungsi untuk mengisi data ke tabel tampilkanDISINI
     loadDataVerifikasiPembayaran();
         
@@ -212,6 +220,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnUpdate.setVisible(true);
     btnDelete.setVisible(true);
     btnCetak.setVisible(false);
+    btnLihatBukti.setVisible(false);
         loadDataJalur();
     }//GEN-LAST:event_btnKelolaJalurActionPerformed
 
@@ -222,12 +231,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
         btnCetak.setVisible(true);
+        btnLihatBukti.setVisible(false);
        loadDataLaporan();
     }//GEN-LAST:event_btnCetakLaporanActionPerformed
 
     private void btnKritikSaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKritikSaranActionPerformed
         // TODO add your handling code here:
         jScrollPane1.setVisible(true);
+        btnLihatBukti.setVisible(false);
     
     
     // 2. Tandai menu yang sedang aktif
@@ -415,14 +426,9 @@ public class DashboardAdmin extends javax.swing.JFrame {
         if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
             
             if (menuAktif.equals("VERIFIKASI")) {
-                // Contoh memanggil controller untuk hapus booking (bisa disesuaikan dengan method AdminController-mu)
-                // boolean sukses = new controller.AdminController().hapusBooking(idTerpilih);
-                // if (sukses) {
-                //     javax.swing.JOptionPane.showMessageDialog(this, "Data pendaftaran berhasil dihapus.");
-                //     new controller.AdminController().tampilkanPembayaranPending(tampilkanDIContent);
-                // }
+                
             } else if (menuAktif.equals("JALUR")) {
-                // Logika hapus jalur
+                
             }
             
             idTerpilih = -1; // Reset ID setelah dihapus
@@ -436,10 +442,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
         return;
     }
 
-    // 1. Munculkan Dialog pemilihan tempat menyimpan file (Save Dialog)
+    
     javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
     fileChooser.setDialogTitle("Simpan Laporan PDF");
-    // Set nama file default otomatis berdasarkan menu aktif
+    
     fileChooser.setSelectedFile(new java.io.File("Laporan_" + menuAktif.toLowerCase() + ".pdf"));
 
     int userSelection = fileChooser.showSaveDialog(this);
@@ -448,29 +454,29 @@ public class DashboardAdmin extends javax.swing.JFrame {
         java.io.File fileSimpan = fileChooser.getSelectedFile();
         String path = fileSimpan.getAbsolutePath();
         
-        // Memastikan ekstensi file tetap .pdf
+        
         if (!path.toLowerCase().endsWith(".pdf")) {
             path += ".pdf";
         }
 
-        // 2. Proses pembuatan struktur Dokumen PDF menggunakan iText
+       
         com.itextpdf.text.Document document = new com.itextpdf.text.Document();
         try {
             com.itextpdf.text.pdf.PdfWriter.getInstance(document, new java.io.FileOutputStream(path));
             document.open();
 
-            // Tambah Judul di dalam PDF
+            
             com.itextpdf.text.Font fontJudul = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 16, com.itextpdf.text.Font.BOLD);
             com.itextpdf.text.Paragraph judul = new com.itextpdf.text.Paragraph("DATA " + menuAktif.toUpperCase() + "\n\n", fontJudul);
             judul.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
             document.add(judul);
 
-            // Membuat tabel PDF dengan jumlah kolom sesuai tabel di aplikasi
+            
             int jumlahKolom = tampilkanDIContent.getColumnCount();
             com.itextpdf.text.pdf.PdfPTable pdfTable = new com.itextpdf.text.pdf.PdfPTable(jumlahKolom);
             pdfTable.setWidthPercentage(100); // Lebar tabel 100% halaman
 
-            // Ambil Nama-nama Kolom (Header)
+            
             com.itextpdf.text.Font fontHeader = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 10, com.itextpdf.text.Font.BOLD);
             for (int i = 0; i < jumlahKolom; i++) {
                 com.itextpdf.text.pdf.PdfPCell cell = new com.itextpdf.text.pdf.PdfPCell(new com.itextpdf.text.Phrase(tampilkanDIContent.getColumnName(i), fontHeader));
@@ -479,7 +485,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 pdfTable.addCell(cell);
             }
 
-            // Ambil Data Baris dari JTable masukkan ke PDF
+           
             com.itextpdf.text.Font fontIsi = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 9, com.itextpdf.text.Font.NORMAL);
             for (int baris = 0; baris < tampilkanDIContent.getRowCount(); baris++) {
                 for (int kolom = 0; kolom < jumlahKolom; kolom++) {
@@ -497,11 +503,84 @@ public class DashboardAdmin extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Gagal membuat PDF: " + e.getMessage());
         } finally {
             if (document.isOpen()) {
-                document.close(); // Tutup koneksi dokumen stream wajib dilakukan
+                document.close(); 
             }
         }
     }
     }//GEN-LAST:event_btnCetakActionPerformed
+
+    private void btnLihatBuktiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatBuktiActionPerformed
+        // TODO add your handling code here:
+       int row = tampilkanDIContent.getSelectedRow();
+    if (row == -1) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Silakan pilih data transaksi di tabel terlebih dahulu!", 
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 2. Validasi apakah menu aktif saat ini adalah pembayaran (Anti NullPointerException)
+    if (menuAktif == null || !"PEMBAYARAN".equals(menuAktif)) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Fitur ini hanya untuk melihat bukti pembayaran pada menu Verifikasi Pembayaran!", 
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 3. Ambil ID Booking dari kolom pertama (indeks 0) pada baris yang dipilih
+    String idBookingTerpilih = tampilkanDIContent.getValueAt(row, 0).toString();
+    String pathBukti = null;
+
+    // 4. Query ke database untuk mengambil path gambar bukti_pembayaran
+    String sql = "SELECT bukti_pembayaran FROM booking WHERE id_booking = ?";
+    
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+        
+        ps.setString(1, idBookingTerpilih);
+        try (java.sql.ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                pathBukti = rs.getString("bukti_pembayaran");
+            }
+        }
+        
+    } catch (java.sql.SQLException e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal mengambil data dari database: " + e.getMessage(), "Database Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // 5. Validasi apakah path bukti pembayaran ada/kosong di database
+    if (pathBukti == null || pathBukti.trim().isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Pendaki belum mengunggah bukti pembayaran untuk kode booking: " + idBookingTerpilih, 
+                "Bukti Kosong", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    // 6. Tampilkan gambar bukti pembayaran ke dalam Pop-up internal Java
+    java.io.File fileGambar = new java.io.File(pathBukti);
+    if (fileGambar.exists()) {
+        // Ambil gambar asli
+        javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(pathBukti);
+        
+        // Atur ukuran gambar preview agar pas di layar (lebar 400px, tinggi 500px)
+        java.awt.Image img = originalIcon.getImage();
+        java.awt.Image scaledImg = img.getScaledInstance(400, 500, java.awt.Image.SCALE_SMOOTH);
+        javax.swing.ImageIcon previewIcon = new javax.swing.ImageIcon(scaledImg);
+        
+        // Munculkan pop-up gambar
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Berikut adalah bukti pembayaran untuk Kode Booking: " + idBookingTerpilih, 
+                "Pratinjau Bukti Pembayaran", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE, 
+                previewIcon);
+    } else {
+        // Antisipasi jika path ada di DB tapi file fisiknya terhapus/pindah folder di laptop
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "File gambar tidak ditemukan di direktori komputer:\n" + pathBukti, 
+                "File Tidak Ditemukan", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnLihatBuktiActionPerformed
 // Fungsi untuk memuat data pendaftaran (Hanya status 'Menunggu Verifikasi')
 public void loadDataVerifikasiPendaftaran() {
     String[] kolom = {"ID Booking", "Nama Pendaki", "Jalur", "Status Booking"};
@@ -715,6 +794,7 @@ private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String n
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnKelolaJalur;
     private javax.swing.JButton btnKritikSaran;
+    private javax.swing.JButton btnLihatBukti;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnVerifikasiPembayaran;
     private javax.swing.JButton btnVerifikasiPendaftaran;

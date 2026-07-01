@@ -24,7 +24,7 @@ public class User {
     }
 
     public boolean login() {
-        // logika login sesungguhnya ditangani oleh AuthController
+        
         return this.email != null && this.password != null;
     }
 
@@ -40,7 +40,7 @@ public class User {
         this.idUser = idUser;
     }
 
-    // Tambahkan ini di dalam class User (model/User.java)
+   
 public String getNama() {
     return this.nama;
 }

@@ -136,31 +136,29 @@ public class Login extends javax.swing.JFrame {
     String email = TxtEmail.getText();
         String password = new String(TxtPassword.getPassword());
 
-        // Validasi input kosong
+        
         if (email.isEmpty() || password.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Email dan Password tidak boleh kosong!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Panggil AuthController untuk proses login
+        
         controller.AuthController auth = new controller.AuthController();
         model.User userLogin = auth.loginUser(email, password);
 
-        // Cek hasil login
+       
         if (userLogin != null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat datang, " + userLogin.getNama());
             
             if ("pendaki".equalsIgnoreCase(userLogin.getRole())) {
-                // Buka Beranda Pendaki
+                
                 Beranda b = new Beranda((model.Pendaki) userLogin); 
                 b.setVisible(true);
                 this.dispose();
             } else if ("admin".equalsIgnoreCase(userLogin.getRole())) {
-                // Buka Beranda Admin
-                // SILAKAN GANTI 'BerandaAdmin' dengan nama class JFrame Admin kamu!
-                // new BerandaAdmin().setVisible(true); 
+                 
                 
-                // Sementara dikasih alert dulu agar aplikasi tidak langsung hilang/close misterius
+                
                 javax.swing.JOptionPane.showMessageDialog(this, "Membuka halaman Dashboard Admin...");
                 this.dispose();
             }

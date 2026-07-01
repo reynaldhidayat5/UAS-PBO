@@ -17,10 +17,7 @@ public class AuthController {
         this.koneksiDB = Koneksi.getInstance().getKoneksi();
     }
 
-    /**
-     * Login user (admin atau pendaki) berdasarkan email & password.
-     * Mengembalikan object User (Admin/Pendaki) bila berhasil, null bila gagal.
-     */
+    
     public User loginUser(String email, String password) {
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
         try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
@@ -57,7 +54,7 @@ public class AuthController {
             a.setNoHp(noHp);
             a.setPassword(password);
             
-            // 👇 TAMBAHKAN BARIS INI
+            
             a.setRole("admin"); 
             
             return a;
@@ -74,7 +71,7 @@ private Pendaki ambilPendaki(int idUser, String nama, String email, String noHp,
         ps.setInt(1, idUser);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            // SINKRONKAN: Panggil constructor 10 parameter sesuai yang ada di Pendaki.java kamu
+            
             Pendaki p = new Pendaki(
                 rs.getInt("id_pendaki"),        
                 nama,                           
@@ -97,9 +94,7 @@ private Pendaki ambilPendaki(int idUser, String nama, String email, String noHp,
     return null;
 }
 
-    /** * PERBAIKAN: Mengubah tipe parameter pertama menjadi String nama 
-     * agar sesuai dengan pengiriman data String dari View Registrasi.
-     */
+    
     public boolean registerPendaki(String nama, String email, String noTelp, String password, String nik) {
         String sqlUser = "INSERT INTO users (nama, email, no_hp, password, role) VALUES (?,?,?,?,'pendaki')";
         try (PreparedStatement ps = koneksiDB.prepareStatement(sqlUser, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -117,14 +112,14 @@ private Pendaki ambilPendaki(int idUser, String nama, String email, String noHp,
                 idUser = rsKey.getInt(1);
             }
 
-            // Atribut opsional/lainnya diisi default kosong (null/"") terlebih dahulu agar pendaftaran awal sukses
+            
             String sqlPendaki = "INSERT INTO pendaki (id_user, nik, foto_ktp, alamat, kontak_darurat, jenis_kelamin) "
                     + "VALUES (?,?,?,?,null,null)";
             try (PreparedStatement ps2 = koneksiDB.prepareStatement(sqlPendaki)) {
                 ps2.setInt(1, idUser);
                 ps2.setString(2, nik);
-                ps2.setString(3, ""); // Default foto_ktp kosong
-                ps2.setString(4, ""); // Default alamat kosong
+                ps2.setString(3, ""); 
+                ps2.setString(4, ""); 
                 return ps2.executeUpdate() > 0;
             }
         } catch (SQLException e) {
@@ -140,15 +135,15 @@ private Pendaki ambilPendaki(int idUser, String nama, String email, String noHp,
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             
-            // Jika data email dan password ditemukan di database
+            
             if (rs.next()) {
-                return rs.getString("role"); // Kembalikan rolenya (Admin / Pendaki)
+                return rs.getString("role"); 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-        // Jika email/password salah atau tidak ditemukan, kembalikan null
+        
         return null; 
     }
 }

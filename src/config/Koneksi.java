@@ -34,7 +34,7 @@ public class Koneksi {
         }
     }
 
-    /** Singleton agar koneksi tidak dibuat berulang-ulang. */
+    
     public static Koneksi getInstance() {
         if (instance == null) {
             instance = new Koneksi();

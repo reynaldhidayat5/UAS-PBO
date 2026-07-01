@@ -118,11 +118,11 @@ public class GunungDanVia extends javax.swing.JFrame {
         try {
         Object selected = cbGunung.getSelectedItem();
         
-        // Cek apakah yang dipilih benar-benar objek Gunung
+        
         if (selected instanceof model.Gunung) {
             model.Gunung g = (model.Gunung) selected;
             
-            // Panggil controller untuk mengisi cbVia berdasarkan ID Gunung
+            
             bookingController.loadJalurByGunung(g.getIdGunung(), cbVia); 
             
         } else {
@@ -139,34 +139,26 @@ public class GunungDanVia extends javax.swing.JFrame {
         try {
         Object selected = cbVia.getSelectedItem();
         
-        // Pastikan yang dipilih adalah objek Jalur_Pendakian
+       
         if (selected instanceof model.Jalur_Pendakian) {
             model.Jalur_Pendakian jalur = (model.Jalur_Pendakian) selected;
             
-            // 1. Ambil nama jalur dari database (Contoh terbaca: "Jalur Mawar")
             String namaJalurDB = jalur.getNamaJalur();
-            
-            // 2. Ubah "Jalur Mawar" menjadi "MAWAR.png"
-            // Logika: Hapus kata "Jalur " -> jadikan huruf besar semua -> tambah ".png"
             String namaFile = namaJalurDB.replace("Jalur ", "").toUpperCase() + ".png";
-            
-            // 3. Tentukan letak folder (Karena foldermu bernama 'images', pakai "/images/")
             String pathGambar = "/images/" + namaFile;
-            
-            // 4. Cari dan muat gambar dari dalam package project
             java.net.URL imgURL = getClass().getResource(pathGambar);
             
             if (imgURL != null) {
                 javax.swing.ImageIcon icon = new javax.swing.ImageIcon(imgURL);
                 
-                // 5. (Opsional tapi penting) Skala gambar agar pas dengan ukuran JLabel di layar
+               
                 java.awt.Image imgScale = icon.getImage().getScaledInstance(
                         lblGambarVia.getWidth(), 
                         lblGambarVia.getHeight(), 
                         java.awt.Image.SCALE_SMOOTH
                 );
                 
-                // 6. Tampilkan gambar ke JLabel
+                
                 lblGambarVia.setIcon(new javax.swing.ImageIcon(imgScale));
                 
             } else {

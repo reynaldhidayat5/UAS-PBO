@@ -1,7 +1,7 @@
 package model;
 
 public class Booking {
-    // Atribut disesuaikan dengan struktur tabel database dan tipe data String untuk tanggal
+    
     private int id_booking;
     private int id_pendaki;
     private int id_gunung;
@@ -11,11 +11,11 @@ public class Booking {
     private int total_biaya;
     private String status_pembayaran;
 
-    // Constructor Kosong
+    
     public Booking() {
     }
 
-    // Constructor dengan Parameter
+    
     public Booking(int id_booking, int id_pendaki, int id_gunung, int id_jalur, String tanggal_naik, String tanggal_turun, int total_biaya, String status_pembayaran) {
         this.id_booking = id_booking;
         this.id_pendaki = id_pendaki;
@@ -30,20 +30,19 @@ public class Booking {
         int kuotaMaksimal = 0;
         int totalDipesan = 0;
 
-        // 1. PERBAIKAN: Ambil kuota dari tabel 'gunung', bukan jalur_pendakian
+        
         String sqlGunung = "SELECT kuota FROM gunung WHERE id_gunung = ?";
         
-        // 2. Hitung jumlah tiket/booking yang aktif di jalur tersebut
+       
         String sqlBooking = "SELECT COUNT(*) AS total FROM booking WHERE id_jalur = ? AND status_booking IN ('Pending', 'Lunas')";
 
-        // 3. PERBAIKAN PENTING: Deklarasikan koneksi DI LUAR dalam kurung try 
-        // agar koneksi utama TIDAK TER-CLOSE otomatis dan mematikan BookingController
+        
         java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi(); 
 
         try (java.sql.PreparedStatement psGunung = conn.prepareStatement(sqlGunung);
              java.sql.PreparedStatement psBooking = conn.prepareStatement(sqlBooking)) {
             
-            // Masukkan idGunung ke dalam query Gunung
+           
             psGunung.setInt(1, idGunung);
             try (java.sql.ResultSet rsGunung = psGunung.executeQuery()) {
                 if (rsGunung.next()) {
@@ -51,7 +50,7 @@ public class Booking {
                 }
             }
 
-            // Masukkan aInt (idJalur) ke dalam query Booking
+            
             psBooking.setInt(1, aInt);
             try (java.sql.ResultSet rsBooking = psBooking.executeQuery()) {
                 if (rsBooking.next()) {
@@ -67,9 +66,7 @@ public class Booking {
         return sisaKuota >= 0 ? sisaKuota : 0; 
     }
 
-    // ==========================================
-    // GETTER DAN SETTER (Menggunakan gaya snake_case)
-    // ==========================================
+   
     
     public int getId_booking() {
         return id_booking;

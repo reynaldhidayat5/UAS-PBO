@@ -243,10 +243,10 @@ public class Peraturan extends javax.swing.JFrame {
     private void chekItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chekItemStateChanged
         // TODO add your handling code here:
         if (chek.getState() == true) {
-            btnLanjut.setEnabled(true);  // Tombol Lanjutkan bisa dipencet
+            btnLanjut.setEnabled(true);  
         } else {
-            // Jika centangan dihilangkan (false)
-            btnLanjut.setEnabled(false); // Tombol kembali dikunci
+            
+            btnLanjut.setEnabled(false); 
         }
     }//GEN-LAST:event_chekItemStateChanged
 

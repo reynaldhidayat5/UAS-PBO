@@ -33,7 +33,7 @@ public class PemesananController {
             if (rows > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
-                    return String.valueOf(rs.getInt(1)); // Mengembalikan ID booking yang sukses dibuat
+                    return String.valueOf(rs.getInt(1)); 
                 }
             }
         } catch (SQLException e) {

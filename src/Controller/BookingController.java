@@ -71,13 +71,13 @@ public class BookingController {
     }
 
     public model.Promo cekPromoDatabase(String kodePromo) {
-        // Sesuaikan nama tabel dan kolom dengan database milikmu
+        
         String sql = "SELECT * FROM promo WHERE kode_promo = ?";
         try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
             ps.setString(1, kodePromo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                // Asumsi model Promo memiliki constructor: Promo(id, kode, persentaseDiskon)
+                
                 model.Promo promo = new model.Promo();
                 promo.setKodePromo(rs.getString("kode_promo"));
                 promo.setDiskon(rs.getDouble("diskon")); 

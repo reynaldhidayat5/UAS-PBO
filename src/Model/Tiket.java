@@ -16,7 +16,7 @@ public class Tiket {
     }
 
     public void cetakTiket() {
-        // logika cetak/generate PDF tiket dilakukan di view/controller terkait
+        
     }
 
     public int getIdTiket() {

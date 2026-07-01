@@ -15,7 +15,7 @@ public class Promo {
         this.diskon = diskon;
     }
 
-    /** Validasi sederhana: kode promo dianggap valid bila diskon > 0. */
+   
     public boolean cekValidasi() {
         return kodePromo != null && !kodePromo.isEmpty() && diskon > 0;
     }

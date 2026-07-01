@@ -26,7 +26,6 @@ public class Pendaki extends User {
     }
 
     public boolean daftarPendakian() {
-        // diimplementasikan melalui PendakiController.registerPendaki()
         return true;
     }
 

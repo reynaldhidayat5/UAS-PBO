@@ -14,7 +14,7 @@ public class PendakiController {
         this.koneksiDB = Koneksi.getInstance().getKoneksi();
     }
 
-    /** Update data profil pendaki (alamat, kontak darurat, dll). */
+   
     public boolean updatePendaki(Pendaki p) {
         String sql = "UPDATE pendaki SET nik=?, foto_ktp=?, alamat=?, kontak_darurat=?, jenis_kelamin=? "
                 + "WHERE id_pendaki=?";
@@ -32,7 +32,7 @@ public class PendakiController {
         }
     }
 
-    /** Dipanggil saat admin memverifikasi pendaftaran pendaki. */
+   
     public boolean verifikasiPendaftaran(int idPendaki) {
         String sql = "UPDATE pendaki SET status_verifikasi = 'Terverifikasi' WHERE id_pendaki = ?";
         try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {

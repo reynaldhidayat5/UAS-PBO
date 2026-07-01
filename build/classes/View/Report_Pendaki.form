@@ -163,7 +163,7 @@
                                   <Component id="jScrollPane2" min="-2" pref="420" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="cbKategori" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -231,9 +231,18 @@
             <Component class="javax.swing.JComboBox" name="cbKategori">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
+                  <StringArray count="5">
+                    <StringItem index="0" value="Kritik"/>
+                    <StringItem index="1" value="Saran"/>
+                    <StringItem index="2" value="Fasilitas"/>
+                    <StringItem index="3" value="Keamanan"/>
+                    <StringItem index="4" value="Lainnya"/>
+                  </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbKategoriActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>

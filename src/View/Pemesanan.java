@@ -94,6 +94,7 @@ public class Pemesanan extends javax.swing.JFrame {
         cbJalur = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         txtTanggalTurun = new com.toedter.calendar.JDateChooser();
+        btnLihatPromo = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -128,7 +129,7 @@ public class Pemesanan extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Form Pemesanan"));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -150,19 +151,23 @@ public class Pemesanan extends javax.swing.JFrame {
 
         jLabel8.setText("Total Biaya");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 262, -1, -1));
+
+        txtIdBooking.setEditable(false);
         jPanel2.add(txtIdBooking, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 35, 191, -1));
         jPanel2.add(txtKodePromo, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 219, 191, -1));
         jPanel2.add(txtTanggalNaik, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 149, 191, -1));
+
+        jTextField4.setEditable(false);
         jPanel2.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 259, 191, -1));
 
         btnHitung.setText("Hitung");
         btnHitung.addActionListener(this::btnHitungActionPerformed);
-        jPanel2.add(btnHitung, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 290, -1, -1));
+        jPanel2.add(btnHitung, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, -1, -1));
 
         btnBayar.setBackground(new java.awt.Color(204, 255, 204));
         btnBayar.setText("Bayar");
         btnBayar.addActionListener(this::btnBayarActionPerformed);
-        jPanel2.add(btnBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, -1, -1));
+        jPanel2.add(btnBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, -1, -1));
 
         cbGunung.addActionListener(this::cbGunungActionPerformed);
         jPanel2.add(cbGunung, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 69, 191, -1));
@@ -174,60 +179,79 @@ public class Pemesanan extends javax.swing.JFrame {
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 185, -1, -1));
         jPanel2.add(txtTanggalTurun, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 185, 191, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 91, 388, 320));
+        btnLihatPromo.setText("Lihat Promo");
+        btnLihatPromo.addActionListener(this::btnLihatPromoActionPerformed);
+        jPanel2.add(btnLihatPromo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, -1, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 91, 388, 350));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 400, 360));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 400, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
         // TODO add your handling code here:
-       // 1. Ambil Tanggal Naik dan Tanggal Turun dari kedua JDateChooser
-    java.util.Date tglNaik = txtTanggalNaik.getDate();
-        if (tglNaik == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih tanggal naik terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+       java.util.Date tglNaik = txtTanggalNaik.getDate();
+    java.util.Date tglTurun = txtTanggalTurun.getDate();
 
-        // 2. Hitung Otomatis Tanggal Turun (Misal durasi standar pendakian adalah 2 hari)
-        long duaHariMilis = 2L * 24 * 60 * 60 * 1000;
-        java.util.Date tglTurun = new java.util.Date(tglNaik.getTime() + duaHariMilis);
+    // Validasi input tanggal naik
+    if (tglNaik == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih tanggal naik terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        // Hitung selisih hari sebagai durasi
-        long diffInMillies = Math.abs(tglTurun.getTime() - tglNaik.getTime());
-        long durasiHari = java.util.concurrent.TimeUnit.DAYS.convert(diffInMillies, java.util.concurrent.TimeUnit.MILLISECONDS);
+    // Validasi input tanggal turun
+    if (tglTurun == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih tanggal turun terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        // 3. Hitung Biaya Dasar (Misal Rp 30.000 per hari)
-        double tarifPerHari = 30000;
-        double biayaDasar = durasiHari * tarifPerHari; 
-        double diskon = 0;
+    // Validasi agar tanggal turun tidak sebelum tanggal naik
+    if (tglTurun.before(tglNaik)) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Tanggal turun tidak boleh sebelum tanggal naik!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        // 4. LOGIKA BARU: Cek Kode Promo dari Database
-        String inputPromo = txtKodePromo.getText().trim();
-        if (!inputPromo.isEmpty()) {
-            controller.BookingController bookingCtrl = new controller.BookingController();
-            model.Promo promoTerdaftar = bookingCtrl.cekPromoDatabase(inputPromo);
+    // 2. Hitung selisih hari sebagai durasi berdasarkan tanggal yang dipilih user
+    long diffInMillies = Math.abs(tglTurun.getTime() - tglNaik.getTime());
+    long durasiHari = java.util.concurrent.TimeUnit.DAYS.convert(diffInMillies, java.util.concurrent.TimeUnit.MILLISECONDS);
 
-            if (promoTerdaftar != null) {
-                // Ambil nilai diskon dari DB (Misal jika di DB bernilai 20, maka dibagi 100)
-                double nilaiDiskon = promoTerdaftar.getDiskon(); 
-                if (nilaiDiskon > 1) {
-                    diskon = biayaDasar * (nilaiDiskon / 100.0); // Jika di DB berbentuk persenan biasa (ex: 20)
-                } else {
-                    diskon = biayaDasar * nilaiDiskon; // Jika di DB berbentuk desimal langsung (ex: 0.20)
-                }
-                javax.swing.JOptionPane.showMessageDialog(this, "Kode promo '" + inputPromo + "' berhasil digunakan!", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    // Antisipasi jika user memilih tanggal naik dan turun di hari yang sama, durasi dihitung minimal 1 hari
+    if (durasiHari == 0) {
+        durasiHari = 1;
+    }
+
+    // 3. Hitung Biaya Dasar (Sekarang Rp 60.000 per hari sesuai permintaan)
+    double tarifPerHari = 60000;
+    double biayaDasar = durasiHari * tarifPerHari; 
+    double diskon = 0;
+
+    // 4. Cek Kode Promo dari Database
+    String inputPromo = txtKodePromo.getText().trim();
+    if (!inputPromo.isEmpty()) {
+        controller.BookingController bookingCtrl = new controller.BookingController();
+        model.Promo promoTerdaftar = bookingCtrl.cekPromoDatabase(inputPromo);
+
+        if (promoTerdaftar != null) {
+            // Ambil nilai diskon persenan dari database
+            double nilaiDiskon = promoTerdaftar.getDiskon(); 
+            if (nilaiDiskon > 1) {
+                diskon = biayaDasar * (nilaiDiskon / 100.0); // Jika di DB berbentuk persenan biasa (ex: 10 untuk 10%)
             } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Kode promo tidak ditemukan di database atau tidak valid.", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+                diskon = biayaDasar * nilaiDiskon; // Jika di DB berbentuk desimal langsung (ex: 0.10)
             }
+            javax.swing.JOptionPane.showMessageDialog(this, "Kode promo '" + inputPromo + "' berhasil digunakan! Diskon: " + (int)nilaiDiskon + "%", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Kode promo tidak ditemukan di database atau tidak valid.", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
         }
+    }
 
-        // 5. Hitung Total Akhir dan Tampilkan ke jTextField4
-        double totalBiaya = biayaDasar - diskon;
-        jTextField4.setText(String.valueOf((int) totalBiaya));
-        jTextField4.setEditable(false);
+    // 5. Hitung Total Akhir dan Tampilkan ke jTextField4
+    double totalBiaya = biayaDasar - diskon;
+    jTextField4.setText(String.valueOf((int) totalBiaya));
+    jTextField4.setEditable(false);
     }//GEN-LAST:event_btnHitungActionPerformed
 
     private void cbGunungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGunungActionPerformed
@@ -300,7 +324,7 @@ public class Pemesanan extends javax.swing.JFrame {
         booking.setTotal_biaya(totalBiaya);
         booking.setStatus_pembayaran("Belum Bayar");
 
-        // 4. Kirim data ke Controller
+        
         controller.PemesananController pemesananCtrl = new controller.PemesananController();
         String idBookingBaru = pemesananCtrl.tambahBooking(booking);
 
@@ -308,7 +332,8 @@ public class Pemesanan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Booking Berhasil! Beralih ke halaman pembayaran.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
             String idBooking = txtIdBooking.getText(); // mengambil ID Booking dari komponen teks
             int totalHarga = totalBiaya;
-            Pembayaran halamanBayar = new Pembayaran(idBooking, totalBiaya);
+            String namaGunung = cbGunung.getSelectedItem().toString();
+            Pembayaran halamanBayar = new Pembayaran(idBooking, totalBiaya, namaGunung);
             halamanBayar.setVisible(true);
             this.dispose();
         } else {
@@ -326,6 +351,51 @@ public class Pemesanan extends javax.swing.JFrame {
     private void cbJalurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJalurActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbJalurActionPerformed
+
+    private void btnLihatPromoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatPromoActionPerformed
+        StringBuilder sb = new StringBuilder();
+    sb.append("🎉 DAFTAR PROMO AKTIF 🎉\n\n");
+    
+    // 1. SESUAIKAN QUERY SQL (Pilih kolom yang memang ada di tabel promo kamu)
+    String sql = "SELECT kode_promo, diskon FROM promo"; 
+    
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+         java.sql.ResultSet rs = ps.executeQuery()) {
+        
+        boolean adaPromo = false;
+        int nomor = 1;
+        
+        while (rs.next()) {
+            adaPromo = true;
+            
+            
+            String kodePromo = rs.getString("kode_promo"); 
+            int diskon = rs.getInt("diskon");            
+            
+            sb.append(nomor).append(". Kode: ").append(kodePromo).append("\n");
+            sb.append("   - Potongan: ").append(diskon).append("%\n\n");
+            nomor++;
+        }
+        
+        if (!adaPromo) {
+            sb.append("Saat ini sedang tidak ada promo yang aktif.");
+        }
+        
+    } catch (java.sql.SQLException e) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Gagal mengambil data database: " + e.getMessage(), 
+                "Database Error", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    javax.swing.JOptionPane.showMessageDialog(this, 
+            sb.toString(), 
+            "Informasi Promo Simaksi", 
+            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    
+    }//GEN-LAST:event_btnLihatPromoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,6 +425,7 @@ public class Pemesanan extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBayar;
     private javax.swing.JButton btnHitung;
+    private javax.swing.JButton btnLihatPromo;
     private javax.swing.JComboBox<String> cbGunung;
     private javax.swing.JComboBox<String> cbJalur;
     private javax.swing.JLabel jLabel1;

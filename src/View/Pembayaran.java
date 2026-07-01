@@ -15,12 +15,15 @@ public class Pembayaran extends javax.swing.JFrame {
     public Pembayaran() {
         initComponents();  
     }
-    public Pembayaran(String idBooking, int totalBiaya) {
+    public Pembayaran(String idBooking, int totalBiaya, String namaGunung) {
     initComponents();
     
     // Mengisi teks label secara otomatis sesuai data yang dikirim
-    lblKodeBooking.setText(idBooking);
+   lblKodeBooking.setText(idBooking);
     lblTotalBiaya.setText("Rp " + String.format("%,d", totalBiaya));
+    
+    // TAMBAHKAN BARIS INI: untuk menampilkan nama gunung tujuan
+    lblTujuanGunung.setText(namaGunung);
 }
     private void updateQRImage() {
         String metode = cbMetodePembayaran.getSelectedItem().toString();
@@ -75,6 +78,7 @@ public class Pembayaran extends javax.swing.JFrame {
         lblKodeBooking = new javax.swing.JLabel();
         lblTujuanGunung = new javax.swing.JLabel();
         lblTotalBiaya = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         btnUpload = new javax.swing.JButton();
         lblNamaFile = new javax.swing.JLabel();
         btnKonfirmasi = new javax.swing.JButton();
@@ -113,9 +117,9 @@ public class Pembayaran extends javax.swing.JFrame {
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 108, -1, -1));
 
         lblQR.setText("QR");
-        jPanel2.add(lblQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 260, 250));
+        jPanel2.add(lblQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 260, 250));
 
-        cbMetodePembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GOPAY", "DANA", "SHOPEE PAY", "BNI", "BRI", "MANDIRI", "BCA" }));
+        cbMetodePembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GOPAY", "DANA", "SHOPEE PAY" }));
         cbMetodePembayaran.addActionListener(this::cbMetodePembayaranActionPerformed);
         jPanel2.add(cbMetodePembayaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 74, -1, -1));
 
@@ -128,7 +132,11 @@ public class Pembayaran extends javax.swing.JFrame {
         lblTotalBiaya.setText("Total");
         jPanel2.add(lblTotalBiaya, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 108, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 320, 410));
+        jLabel8.setForeground(new java.awt.Color(204, 51, 0));
+        jLabel8.setText("!Peringatan, Untuk Pembayaran E-Wallet/QRis Only ya");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 320, 420));
 
         btnUpload.setText("Upload Bukti");
         btnUpload.addActionListener(this::btnUploadActionPerformed);
@@ -156,15 +164,14 @@ public class Pembayaran extends javax.swing.JFrame {
     private void btnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadActionPerformed
         // TODO add your handling code here:
         javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
-    // Filter hanya untuk file gambar
-    javax.swing.filechooser.FileNameExtensionFilter filter = new javax.swing.filechooser.FileNameExtensionFilter("Images", "jpg", "png", "jpeg");
-    chooser.setFileFilter(filter);
     
-    int returnVal = chooser.showOpenDialog(this);
-    if(returnVal == javax.swing.JFileChooser.APPROVE_OPTION) {
+    if (chooser.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
         java.io.File file = chooser.getSelectedFile();
-        pathBuktiBaru = file.getAbsolutePath(); // Ambil lokasi file di komputer
-        lblNamaFile.setText(file.getName());    // Tampilkan nama file di label
+        
+      
+        pathBuktiBaru = file.getAbsolutePath(); 
+        
+        lblNamaFile.setText(file.getName());
     }
     }//GEN-LAST:event_btnUploadActionPerformed
 
@@ -175,31 +182,47 @@ public class Pembayaran extends javax.swing.JFrame {
         return;
     }
     
-    // Ambil ID dari Label
-    String idBooking = lblKodeBooking.getText(); 
+   String idBooking = lblKodeBooking.getText().trim();
     
-    // 2. Ambil path atau file gambar bukti pembayaran (jika ada)
-    // String pathGambar = txtPathGambar.getText(); 
-
-    // 3. Query untuk mengubah status menjadi 'Menunggu Verifikasi'
-    String sql = "UPDATE booking SET status_pembayaran = 'Menunggu Verifikasi' WHERE id_booking = ?";
+    // 2. Validasi apakah user sudah mengunggah bukti pembayaran
+    if (pathBuktiBaru == null || pathBuktiBaru.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Silakan unggah bukti pembayaran terlebih dahulu sebelum konfirmasi!", 
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // 3. Query SQL untuk memasukkan path bukti pembayaran berdasarkan ID Booking
+    String sql = "UPDATE booking SET bukti_pembayaran = ? WHERE id_booking = ?";
     
     try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
          java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
         
-        ps.setString(1, idBooking);
-        // Jika kamu menyimpan file gambar ke database, sesuaikan parameternya di sini
         
-        int hasil = ps.executeUpdate();
-        if (hasil > 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Bukti pembayaran berhasil diunggah! Menunggu verifikasi admin.");
+        String pathAman = pathBuktiBaru.replace("\\", "/");
+        
+        ps.setString(1, pathAman); 
+        ps.setString(2, idBooking);   
+        
+        int rowsUpdated = ps.executeUpdate();
+        if (rowsUpdated > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Bukti pembayaran berhasil diunggah! Menunggu verifikasi dari admin.", 
+                    "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             
-            // Tutup form atau reset input
+            new Beranda().setVisible(true);
+            this.dispose();
             this.dispose(); 
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Kode Booking tidak ditemukan di sistem.", 
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
+        
     } catch (java.sql.SQLException e) {
-        e.printStackTrace();
-        javax.swing.JOptionPane.showMessageDialog(this, "Gagal mengunggah bukti: " + e.getMessage());
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Gagal menyimpan bukti ke database: " + e.getMessage(), 
+                "Database Error", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_btnKonfirmasiActionPerformed
 
@@ -239,6 +262,7 @@ public class Pembayaran extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblKodeBooking;
