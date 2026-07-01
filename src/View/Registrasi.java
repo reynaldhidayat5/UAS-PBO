@@ -47,10 +47,11 @@ public class Registrasi extends javax.swing.JFrame {
         btnFotoKTP = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
         btnRegister = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -97,6 +98,10 @@ public class Registrasi extends javax.swing.JFrame {
         btnRegister.setText("Daftar");
         btnRegister.addActionListener(this::btnRegisterActionPerformed);
         getContentPane().add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 350, 90, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 320));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 510, 330));
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 0));
 
@@ -104,27 +109,30 @@ public class Registrasi extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Registrasi");
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(182, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(113, 113, 113)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(178, 178, 178))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel10)
+                .addGap(0, 12, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 320));
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 510, 330));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -204,6 +212,7 @@ public class Registrasi extends javax.swing.JFrame {
     private javax.swing.JButton btnFotoKTP;
     private javax.swing.JButton btnRegister;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
