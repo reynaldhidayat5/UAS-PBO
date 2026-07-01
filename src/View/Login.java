@@ -160,7 +160,8 @@ public class Login extends javax.swing.JFrame {
 
     if (userSukses != null) {
         JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat Datang, " + userSukses.getNama());
-        
+        config.Session.setIdPendaki(userSukses.getIdUser()); 
+        config.Session.setNamaPendaki(userSukses.getNama());
         // CEK ROLE USER YANG LOGIN
         if ("admin".equalsIgnoreCase(userSukses.getRole())) {
             // Jika login sebagai Admin, buka Dashboard Admin

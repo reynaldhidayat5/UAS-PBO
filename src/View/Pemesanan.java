@@ -249,37 +249,96 @@ public class Pemesanan extends javax.swing.JFrame {
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
         // TODO add your handling code here:
-        if (cbGunung.getSelectedItem() == null) {
-        JOptionPane.showMessageDialog(this, "Silakan pilih gunung terlebih dahulu!");
-        return;
-    }
-
-    try {
-        // 2. Ambil data dari komponen Form Pemesanan kamu
-        String kodeBooking = txtIdBooking.getText(); // Mengambil kode booking otomatis
-        String tujuanGunung = cbGunung.getSelectedItem().toString(); // Mengambil nama gunung
+        try {
+        // 1. AMBIL ID PENDAKI DARI SESSION (User yang sedang login)
+        int idPendaki = config.Session.getIdPendaki();
         
-        // Mengambil total bayar (Sesuaikan jTextField4 jika itu adalah field total harga milikmu)
-        // Kita bersihkan dulu karakter "Rp", titik, atau spasi jika ada agar bisa diubah ke angka
-        String strTotal = jTextField4.getText().replaceAll("[^0-8]", ""); 
-        int totalBayar = strTotal.isEmpty() ? 0 : Integer.parseInt(strTotal);
+        // Validasi jika user belum login atau session kosong
+        if (idPendaki == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Sesi login habis atau Anda belum login! Silakan login terlebih dahulu.", 
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            new View.Login().setVisible(true);
+            this.dispose();
+            return;
+        }
 
-        // 3. PROSES SIMPAN KE DATABASE (Opsional - jika kamu sudah punya kodenya di Controller)
-        // Di sini biasanya kamu memanggil controller untuk insert data booking ke database, contoh:
-        // pemesananCtrl.simpanBooking(...);
+        // 2. VALIDASI INPUT FORM PEMESANAN
+        if (txtTanggalNaik.getDate() == null || txtTanggalTurun.getDate() == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Tanggal Naik dan Tanggal Turun harus diisi!", 
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (jTextField4.getText().trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Total biaya belum dihitung! Silakan hitung terlebih dahulu.", 
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        // 4. BUKA FORM PEMBAYARAN DAN PASSING PARAMETERNYA
-        // Pastikan package 'View' ditulis dengan huruf besar/kecil yang sesuai
-        View.Pembayaran formBayar = new View.Pembayaran(kodeBooking, tujuanGunung, totalBayar);
-        formBayar.setVisible(true);
+        // 3. AMBIL DATA DARI KOMPONEN GUI
+        // Mengambil ID berdasarkan index ComboBox (Index 0 + 1 = ID 1, dst)
+        int idGunung = cbGunung.getSelectedIndex() + 1; 
+        int idJalur = cbJalur.getSelectedIndex() + 1;   
+        
+        // Format tanggal agar sesuai dengan tipe DATE di MySQL (yyyy-MM-dd)
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String tglNaik = sdf.format(txtTanggalNaik.getDate());
+        String tglTurun = sdf.format(txtTanggalTurun.getDate());
+        
+        // Ambil nominal total biaya dari jTextField4
+        int totalBiaya = Integer.parseInt(jTextField4.getText().trim());
 
-        // 5. Tutup Form Pemesanan saat ini agar layar bersih
-        this.dispose();
-
+        // 4. QUERY INSERT KE TABEL BOOKING
+        String sql = "INSERT INTO booking (id_pendaki, id_gunung, id_jalur, tanggal_naik, tanggal_turun, total_biaya, status_pembayaran) VALUES (?, ?, ?, ?, ?, ?, 'Belum Bayar')";
+        
+        java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+        // RETURN_GENERATED_KEYS digunakan untuk mengambil id_booking yang digenerate otomatis oleh database
+        java.sql.PreparedStatement ps = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+        
+        ps.setInt(1, idPendaki); // ID Dinamis dari hasil Login via Session
+        ps.setInt(2, idGunung);
+        ps.setInt(3, idJalur);
+        ps.setString(4, tglNaik);
+        ps.setString(5, tglTurun);
+        ps.setInt(6, totalBiaya);
+        
+        int rows = ps.executeUpdate();
+        if (rows > 0) {
+            // Ambil ID Booking asli dari database
+            java.sql.ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                String idBookingBaru = rs.getString(1);
+                String namaGunung = cbGunung.getSelectedItem().toString();
+                
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Pemesanan berhasil dibuat! Melanjutkan ke halaman Pembayaran.", 
+                    "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+                // 5. BUKA FORM PEMBAYARAN & OPER DATA UTAMA
+                View.Pembayaran formBayar = new View.Pembayaran(idBookingBaru, namaGunung, totalBiaya);
+                formBayar.setVisible(true);
+                
+                // Tutup form pemesanan saat ini
+                this.dispose(); 
+            }
+        }
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Format total bayar tidak valid: " + e.getMessage());
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "Format total biaya tidak valid! Pastikan hanya berisi angka.", 
+            "Error Angka", javax.swing.JOptionPane.ERROR_MESSAGE);
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "Gagal menyimpan data ke database: " + e.getMessage(), 
+            "Database Error", javax.swing.JOptionPane.ERROR_MESSAGE);
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memproses pembayaran: " + e.getMessage());
+        e.printStackTrace();
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "Terjadi kesalahan tidak terduga: " + e.getMessage(), 
+            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_btnBayarActionPerformed
 

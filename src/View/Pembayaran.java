@@ -176,21 +176,28 @@ public class Pembayaran extends javax.swing.JFrame {
         return;
     }
     
+    // Ambil ID dari Label
     String kodeBooking = lblKodeBooking.getText();
+    System.out.println("Mencoba update ID Booking: " + kodeBooking); // Ini akan muncul di Output NetBeans
     
-    // Query SQL untuk mengupdate bukti_pembayaran dan mengubah status menjadi Menunggu Verifikasi
+    // 2. Query UPDATE yang LENGKAP dengan bukti_pembayaran
     String sql = "UPDATE booking SET bukti_pembayaran = ?, status_pembayaran = 'Menunggu Verifikasi' WHERE id_booking = ?";
     
     try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
          java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
          
-        ps.setString(1, pathBuktiBaru); // Atau nama filenya saja yang disimpan
-        ps.setString(2, kodeBooking);
+        ps.setString(1, pathBuktiBaru); // Mengisi tanda tanya ke-1 (file gambar)
+        ps.setString(2, kodeBooking);   // Mengisi tanda tanya ke-2 (id_booking)
         
         int rows = ps.executeUpdate();
+        
+        // 3. Pengecekan apakah sukses
         if (rows > 0) {
             javax.swing.JOptionPane.showMessageDialog(this, "Bukti berhasil dikirim! Menunggu verifikasi admin.");
             this.dispose(); // Tutup halaman pembayaran
+        } else {
+            // JIKA MUNCUL PESAN INI, BERARTI ID BOOKING SALAH / TIDAK DITEMUKAN
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal! ID Booking (" + kodeBooking + ") tidak ditemukan di database.\nJangan Run halaman ini secara langsung!");
         }
     } catch (java.sql.SQLException e) {
         e.printStackTrace();
