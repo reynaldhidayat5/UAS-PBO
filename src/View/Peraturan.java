@@ -20,17 +20,18 @@ public class Peraturan extends javax.swing.JFrame {
      */
     public Peraturan() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        // Agar form di tengah (opsional)
         
-        // 1. TAMBAHKAN KODE INI UNTUK MENGUNCI TOMBOL LANJUTKAN
         btnLanjut.setEnabled(false);
     }
 
     public Peraturan(Pendaki pendaki) {
-        initComponents();
-        this.pendakiAktif = pendaki; // Mengamankan data login pendaki
-    }
+    initComponents();
+    this.pendakiAktif = pendaki; // Mengamankan data login pendaki
+    
+    // COPAS KODE DARI CONSTRUCTOR ATASNYA KE SINI JUGA
+    this.setLocationRelativeTo(null);
+    btnLanjut.setEnabled(false); // Mengunci tombol saat lewat login
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -235,7 +236,7 @@ public class Peraturan extends javax.swing.JFrame {
         // TODO add your handling code here:
         new Pemesanan(this.pendakiAktif).setVisible(true); 
     this.dispose();
-    // Tutup halaman Peraturan
+    
     this.dispose();
     }//GEN-LAST:event_btnLanjutActionPerformed
 

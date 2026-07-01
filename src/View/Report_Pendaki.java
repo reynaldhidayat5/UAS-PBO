@@ -31,12 +31,16 @@ public class Report_Pendaki extends javax.swing.JFrame {
         
     }
 public Report_Pendaki(int id_pendaki) {
-    initComponents();
+    initComponents(); // Ini untuk menggambar tombol dan checkbox
+    this.id_pendaki_aktif = id_pendaki;
     
-   this.id_pendaki_aktif = id_pendaki; 
-    
-    // Fungsi load tabel yang kemarin kita buat
-    loadRiwayatPesanan();
+    // AMANKAN DI SINI: Jangan biarkan error database merusak tombol UI
+    try {
+        loadRiwayatPesanan(); 
+    } catch (Exception e) {
+        System.out.println("Error load data: " + e.getMessage());
+        // Aplikasi tidak akan crash, tombol centang kamu tetap akan berfungsi normal
+    }
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -407,7 +411,7 @@ public void loadRiwayatPesanan() {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-    new Report_Pendaki(0).setVisible(true); // Cukup tambahkan parameter default berupa angka 0
+    new Report_Pendaki(0).setVisible(true); // Memasukkan angka 0 default
 });
     }
 
