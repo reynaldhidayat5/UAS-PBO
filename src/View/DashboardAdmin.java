@@ -26,7 +26,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jScrollPane1.setVisible(false);
         btnCetak.setVisible(false);
         btnLihatBukti.setVisible(false);
-        
+        btnLogout.setVisible(true);
     }
 
     DashboardAdmin(Admin admin) {
@@ -45,7 +45,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -83,8 +83,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Dashboard Admin");
 
-        jButton6.setText("Log out");
-        jButton6.addActionListener(this::jButton6ActionPerformed);
+        btnLogout.setText("Log out");
+        btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
 
@@ -97,7 +97,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(133, 133, 133)
-                .addComponent(jButton6)
+                .addComponent(btnLogout)
                 .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
@@ -109,7 +109,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(jButton6))
+                        .addComponent(btnLogout))
                     .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -239,16 +239,18 @@ public class DashboardAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         jScrollPane1.setVisible(true);
         btnLihatBukti.setVisible(false);
+        
+        
     
     
     // 2. Tandai menu yang sedang aktif
     menuAktif = "KRITIK";
-    jLabel1.setText("MENU: ADUAN / KRITIK & SARAN"); // Mengubah label judul di dashboard
     
     // 3. Sembunyikan tombol yang tidak diperlukan untuk menu ini
     btnCetak.setVisible(false); 
     btnUpdate.setVisible(false);
     btnDelete.setVisible(true);
+    btnLogout.setVisible(true);
     
     // 4. Panggil LaporanController untuk load data aduan dari database ke jTable1
     new controller.LaporanController().tampilkanKritikSaran(tampilkanDIContent);
@@ -258,7 +260,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     jPanel2.repaint();
     }//GEN-LAST:event_btnKritikSaranActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         int opsi = javax.swing.JOptionPane.showConfirmDialog(this, 
             "Apakah Anda yakin ingin keluar dari aplikasi?", 
@@ -275,7 +277,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         View.Login loginForm = new View.Login(); 
         loginForm.setVisible(true);
     }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void tampilkanDIContentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tampilkanDIContentMouseClicked
         // TODO add your handling code here:
@@ -795,10 +797,10 @@ private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String n
     private javax.swing.JButton btnKelolaJalur;
     private javax.swing.JButton btnKritikSaran;
     private javax.swing.JButton btnLihatBukti;
+    private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnVerifikasiPembayaran;
     private javax.swing.JButton btnVerifikasiPendaftaran;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

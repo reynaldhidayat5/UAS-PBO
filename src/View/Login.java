@@ -160,6 +160,8 @@ public class Login extends javax.swing.JFrame {
                 
                 
                 javax.swing.JOptionPane.showMessageDialog(this, "Membuka halaman Dashboard Admin...");
+                new DashboardAdmin().setVisible(true);
+                this.dispose();
                 this.dispose();
             }
         } else {
