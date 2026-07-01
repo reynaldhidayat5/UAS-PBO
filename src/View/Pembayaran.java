@@ -13,8 +13,15 @@ public class Pembayaran extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Pembayaran.class.getName());
     private String pathBuktiBaru = null;
     public Pembayaran() {
-        initComponents();
+        initComponents();  
     }
+    public Pembayaran(String idBooking, int totalBiaya) {
+    initComponents();
+    
+    // Mengisi teks label secara otomatis sesuai data yang dikirim
+    lblKodeBooking.setText(idBooking);
+    lblTotalBiaya.setText("Rp " + String.format("%,d", totalBiaya));
+}
     private void updateQRImage() {
         String metode = cbMetodePembayaran.getSelectedItem().toString();
         
@@ -44,15 +51,7 @@ public class Pembayaran extends javax.swing.JFrame {
     /**
      * Creates new form Pembayaran
      */
-    public Pembayaran(String kode, String gunung, int totalBiaya) {
-        initComponents(); // Biarkan ini tetap ada (wajib)
-        this.setLocationRelativeTo(null); // Agar form muncul di tengah layar
-        
-        // Memasukkan data parameter ke dalam label-label di desainmu
-        lblKodeBooking.setText(kode);
-        lblTujuanGunung.setText(gunung);
-        lblTotalBiaya.setText("Rp " + String.format("%,d", totalBiaya)); // Format angka jadi ada titiknya
-    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -177,31 +176,30 @@ public class Pembayaran extends javax.swing.JFrame {
     }
     
     // Ambil ID dari Label
-    String kodeBooking = lblKodeBooking.getText();
-    System.out.println("Mencoba update ID Booking: " + kodeBooking); // Ini akan muncul di Output NetBeans
+    String idBooking = lblKodeBooking.getText(); 
     
-    // 2. Query UPDATE yang LENGKAP dengan bukti_pembayaran
-    String sql = "UPDATE booking SET bukti_pembayaran = ?, status_pembayaran = 'Menunggu Verifikasi' WHERE id_booking = ?";
+    // 2. Ambil path atau file gambar bukti pembayaran (jika ada)
+    // String pathGambar = txtPathGambar.getText(); 
+
+    // 3. Query untuk mengubah status menjadi 'Menunggu Verifikasi'
+    String sql = "UPDATE booking SET status_pembayaran = 'Menunggu Verifikasi' WHERE id_booking = ?";
     
     try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
          java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
-         
-        ps.setString(1, pathBuktiBaru); // Mengisi tanda tanya ke-1 (file gambar)
-        ps.setString(2, kodeBooking);   // Mengisi tanda tanya ke-2 (id_booking)
         
-        int rows = ps.executeUpdate();
+        ps.setString(1, idBooking);
+        // Jika kamu menyimpan file gambar ke database, sesuaikan parameternya di sini
         
-        // 3. Pengecekan apakah sukses
-        if (rows > 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Bukti berhasil dikirim! Menunggu verifikasi admin.");
-            this.dispose(); // Tutup halaman pembayaran
-        } else {
-            // JIKA MUNCUL PESAN INI, BERARTI ID BOOKING SALAH / TIDAK DITEMUKAN
-            javax.swing.JOptionPane.showMessageDialog(this, "Gagal! ID Booking (" + kodeBooking + ") tidak ditemukan di database.\nJangan Run halaman ini secara langsung!");
+        int hasil = ps.executeUpdate();
+        if (hasil > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Bukti pembayaran berhasil diunggah! Menunggu verifikasi admin.");
+            
+            // Tutup form atau reset input
+            this.dispose(); 
         }
     } catch (java.sql.SQLException e) {
         e.printStackTrace();
-        javax.swing.JOptionPane.showMessageDialog(this, "Gagal mengirim bukti: " + e.getMessage());
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal mengunggah bukti: " + e.getMessage());
     }
     }//GEN-LAST:event_btnKonfirmasiActionPerformed
 
@@ -227,7 +225,7 @@ public class Pembayaran extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Pembayaran().setVisible(true));
+       java.awt.EventQueue.invokeLater(() -> new Pembayaran().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

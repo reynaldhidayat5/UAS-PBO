@@ -5,7 +5,7 @@ public class Admin extends User {
     private int idAdmin;
     private String shiftKerja;
 
-    public Admin() {
+    public Admin(int aInt, int idUser1, String string) {
         super();
     }
 
@@ -60,4 +60,9 @@ public class Admin extends User {
     public void setShift(String shift) {
         this.shiftKerja = shift;
     }
+@Override
+public void setRole(String role) {
+    super.setRole(role); 
+}
+    
 }

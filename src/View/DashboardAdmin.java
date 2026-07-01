@@ -41,6 +41,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
@@ -59,6 +60,17 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnCetak = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -162,7 +174,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jPanel3.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(354, 240, -1, -1));
 
         btnCetak.setText("CETAK");
-        jPanel3.add(btnCetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 240, -1, -1));
+        btnCetak.addActionListener(this::btnCetakActionPerformed);
+        jPanel3.add(btnCetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, -1, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 280));
 
@@ -173,21 +186,17 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerifikasiPendaftaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifikasiPendaftaranActionPerformed
-       menuAktif = "VERIFIKASI"; // Set menu aktif
+       menuAktif = "PENDAFTARAN"; // Set menu aktif
         jScrollPane1.setVisible(true); // Munculkan tabel
         btnUpdate.setVisible(true);
     btnDelete.setVisible(true);
     btnCetak.setVisible(false);
-        controller.AdminController adminController = new controller.AdminController();
-        adminController.tampilkanPembayaranPending(tampilkanDIContent);
-        
-        this.revalidate();
-        this.repaint();
+        loadDataVerifikasiPendaftaran();
     }//GEN-LAST:event_btnVerifikasiPendaftaranActionPerformed
 
     private void btnVerifikasiPembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifikasiPembayaranActionPerformed
         // TODO add your handling code here:
-        menuAktif = "verifikasi";
+        menuAktif = "PEMBAYARAN";
     btnUpdate.setVisible(true);
     btnDelete.setVisible(true);
     btnCetak.setVisible(false);
@@ -203,11 +212,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnUpdate.setVisible(true);
     btnDelete.setVisible(true);
     btnCetak.setVisible(false);
-        // Memanggil fungsi load data jalur ke tabel (Sesuaikan dengan method di AdminController-mu)
-        // new controller.AdminController().tampilkanSemuaJalur(tampilkanDIContent);
-        
-        this.revalidate();
-        this.repaint();
+        loadDataJalur();
     }//GEN-LAST:event_btnKelolaJalurActionPerformed
 
     private void btnCetakLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakLaporanActionPerformed
@@ -217,44 +222,75 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
         btnCetak.setVisible(true);
-        // Memanggil LaporanController sesuai file contoh kodingan manual sebelumnya
-        controller.LaporanController laporanCtrl = new controller.LaporanController();
-        laporanCtrl.tampilkanLaporan(tampilkanDIContent);
-        
-        this.revalidate();
-        this.repaint();
+       loadDataLaporan();
     }//GEN-LAST:event_btnCetakLaporanActionPerformed
 
     private void btnKritikSaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKritikSaranActionPerformed
         // TODO add your handling code here:
-        menuAktif = "KRITIK";
         jScrollPane1.setVisible(true);
-        btnUpdate.setVisible(false);
-        btnCetakLaporan.setVisible(false);
-        btnCetak.setVisible(true);
-        controller.LaporanController laporanCtrl = new controller.LaporanController();
-        laporanCtrl.tampilkanKritikSaran(tampilkanDIContent);
-        
-        this.revalidate();
-        this.repaint();
+    
+    
+    // 2. Tandai menu yang sedang aktif
+    menuAktif = "KRITIK";
+    jLabel1.setText("MENU: ADUAN / KRITIK & SARAN"); // Mengubah label judul di dashboard
+    
+    // 3. Sembunyikan tombol yang tidak diperlukan untuk menu ini
+    btnCetak.setVisible(false); 
+    btnUpdate.setVisible(false);
+    btnDelete.setVisible(true);
+    
+    // 4. Panggil LaporanController untuk load data aduan dari database ke jTable1
+    new controller.LaporanController().tampilkanKritikSaran(tampilkanDIContent);
+    
+    // Re-validate tampilan agar tabel langsung digambar ulang oleh NetBeans
+    jPanel2.revalidate();
+    jPanel2.repaint();
     }//GEN-LAST:event_btnKritikSaranActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        int opsi = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "Apakah Anda yakin ingin keluar dari aplikasi?", 
+            "Konfirmasi Log Out", 
+            javax.swing.JOptionPane.YES_NO_OPTION, 
+            javax.swing.JOptionPane.QUESTION_MESSAGE);
+    
+    // 2. Jika Pengguna Memilih tombol YES (Iya)
+    if (opsi == javax.swing.JOptionPane.YES_OPTION) {
+        // Tutup frame Dashboard saat ini
+        this.dispose(); 
+        
+        // Buka kembali halaman Login (Sesuaikan 'Login' dengan nama class JFrame login milikmu)
+        View.Login loginForm = new View.Login(); 
+        loginForm.setVisible(true);
+    }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void tampilkanDIContentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tampilkanDIContentMouseClicked
         // TODO add your handling code here:
         int baris = tampilkanDIContent.getSelectedRow();
-        if (baris != -1) {
-            // Mengambil ID dari kolom pertama (indeks 0)
-            idTerpilih = Integer.parseInt(tampilkanDIContent.getValueAt(baris, 0).toString());
+    
+    if (baris != -1) {
+        // 1. KODE ASLI KAMU: Mengambil ID dari kolom pertama (indeks 0)
+        idTerpilih = Integer.parseInt(tampilkanDIContent.getValueAt(baris, 0).toString());
+        
+        // 2. TAMBAHAN UNTUK KELOLA JALUR: Otomatis isi form saat baris diklik
+        if ("JALUR".equals(menuAktif)) {
+            // Ambil data dari baris tabel yang diklik
+            String idJalur = tampilkanDIContent.getValueAt(baris, 0).toString();
+            String namaGunung = tampilkanDIContent.getValueAt(baris, 1).toString();
+            String namaJalurLama = tampilkanDIContent.getValueAt(baris, 2).toString();
+            String statusJalurLama = tampilkanDIContent.getValueAt(baris, 3).toString();
+            
+            // Panggil fungsi untuk menampilkan form pop-up otomatis
+            tampilkanFormPopUpJalur(idJalur, namaGunung, namaJalurLama, statusJalurLama); 
         }
+    }
     }//GEN-LAST:event_tampilkanDIContentMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        int barisTerpilih = tampilkanDIContent.getSelectedRow();
+       int barisTerpilih = tampilkanDIContent.getSelectedRow();
     
     // Validasi awal: pastikan admin sudah memilih data di tabel
     if (barisTerpilih == -1) {
@@ -262,12 +298,37 @@ public class DashboardAdmin extends javax.swing.JFrame {
         return;
     }
 
-   
-    
-    if ("verifikasi".equals(menuAktif)) {
-        // --- 1. LOGIKA UNTUK TABEL VERIFIKASI PEMBAYARAN ---
-        String idBooking = tampilkanDIContent.getValueAt(barisTerpilih, 0).toString();
-        
+    // Ambil ID Booking dari kolom pertama (indeks 0)
+    String idBooking = tampilkanDIContent.getValueAt(barisTerpilih, 0).toString();
+
+    // =========================================================================
+    // A. LOGIKA UNTUK TABEL VERIFIKASI PENDAFTARAN
+    // =========================================================================
+    if ("PENDAFTARAN".equals(menuAktif)) { 
+        // Query mengubah status_booking jadi Disetujui agar ILANG dari pendaftaran
+        // dan memastikan status_pembayaran 'Belum Bayar' agar MASUK ke pembayaran
+        String sql = "UPDATE booking SET status_booking = 'Disetujui', status_pembayaran = 'Belum Bayar' WHERE id_booking = ?";
+        try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+             java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, idBooking);
+            int hasil = ps.executeUpdate();
+            
+            if (hasil > 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Pendaftaran Disetujui! Data otomatis berpindah ke antrean Verifikasi Pembayaran.");
+                loadDataVerifikasiPendaftaran(); // Refresh tabel pendaftaran agar baris langsung hilang dari layar
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Gagal memperbarui data. ID tidak ditemukan.");
+            }
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Error database pendaftaran: " + e.getMessage());
+        }
+
+    // =========================================================================
+    // B. LOGIKA UNTUK TABEL VERIFIKASI PEMBAYARAN
+    // =========================================================================
+    } else if ("PEMBAYARAN".equals(menuAktif)) { 
         String sql = "UPDATE booking SET status_pembayaran = 'Lunas' WHERE id_booking = ?";
         try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
              java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -277,60 +338,69 @@ public class DashboardAdmin extends javax.swing.JFrame {
             
             if (hasil > 0) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Pembayaran Berhasil Diverifikasi! Status: Lunas.");
-                loadDataVerifikasiPembayaran(); // Refresh tabel pembayaran
+                loadDataVerifikasiPembayaran(); // Refresh tabel pembayaran agar yang lunas langsung hilang
             }
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
-            javax.swing.JOptionPane.showMessageDialog(this, "Gagal verifikasi pembayaran: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, "Error database pembayaran: " + e.getMessage());
         }
 
+    // =========================================================================
+    // C. LOGIKA UNTUK TABEL KELOLA JALUR PENDAKIAN
+    // =========================================================================
     } else if ("JALUR".equals(menuAktif)) {
-        // --- 2. LOGIKA UNTUK TABEL KELOLA JALUR PENDAKIAN ---
-        // Ambil ID Jalur dari kolom ke-0
         String idJalur = tampilkanDIContent.getValueAt(barisTerpilih, 0).toString();
+        String namaJalurLama = tampilkanDIContent.getValueAt(barisTerpilih, 2).toString();
+        String statusJalurLama = tampilkanDIContent.getValueAt(barisTerpilih, 3).toString(); // Ambil status lama (Buka/Tutup)
         
-        // Contoh: Buka form edit jalur atau ambil data dari textfield admin jika ada
-        // String namaJalurBaru = txtNamaJalur.getText(); 
+        // 1. Tampilkan Pop-up Input untuk mengubah NAMA JALUR
+        String namaJalurBaru = javax.swing.JOptionPane.showInputDialog(this, "Ubah Nama Jalur Pendakian:", namaJalurLama);
         
+        // Jika admin menekan tombol Cancel pada pop-up nama
+        if (namaJalurBaru == null) return; 
+        
+        namaJalurBaru = namaJalurBaru.trim();
+        if (namaJalurBaru.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Nama jalur tidak boleh kosong!");
+            return;
+        }
+        
+        // 2. Tampilkan Pop-up Pilihan Pilihan (OptionDialog) untuk STATUS JALUR
+        String[] pilihanStatus = {"Buka", "Tutup"};
+        int opsiTerpilih = javax.swing.JOptionPane.showOptionDialog(this, 
+                "Pilih Status Jalur Terbaru:", 
+                "Update Status Jalur", 
+                javax.swing.JOptionPane.DEFAULT_OPTION, 
+                javax.swing.JOptionPane.QUESTION_MESSAGE, 
+                null, pilihanStatus, statusJalurLama);
+        
+        // Jika admin menutup/silang pop-up opsi tanpa memilih
+        if (opsiTerpilih == -1) return; 
+        
+        // Ambil string berdasarkan tombol yang dipilih ("Buka" atau "Tutup")
+        String statusJalurBaru = pilihanStatus[opsiTerpilih];
+        
+        // 3. Eksekusi ke Database simaksi_online
         String sql = "UPDATE jalur_pendakian SET nama_jalur = ?, status_jalur = ? WHERE id_jalur = ?";
         try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
              java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
             
-            // ps.setString(1, namaJalurBaru);
-            // ps.setString(2, statusJalurBaru);
-            ps.setString(3, idJalur);
+            ps.setString(1, namaJalurBaru);   
+            ps.setString(2, statusJalurBaru); 
+            ps.setString(3, idJalur);         
             
             int hasil = ps.executeUpdate();
             if (hasil > 0) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Data Jalur Pendakian berhasil diperbarui!");
-                // loadDataJalur(); // Fungsi refresh milik tabel jalurmu
+                javax.swing.JOptionPane.showMessageDialog(this, "Data Jalur Berhasil Diperbarui!");
+                loadDataJalur(); // Refresh tabel biar status terbarunya langsung kelihatan
             }
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Error update jalur: " + e.getMessage());
         }
-
-    } else if ("VERIFIKASI".equals(menuAktif)) {
-        // --- 3. LOGIKA UNTUK TABEL VERIFIKASI PENDAFTARAN (DOKUMEN KTP/KESIHATAN) ---
-        String idBooking = tampilkanDIContent.getValueAt(barisTerpilih, 0).toString();
-        
-        String sql = "UPDATE booking SET status_pendaftaran = 'Disetujui' WHERE id_booking = ?";
-        try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
-             java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
-            
-            ps.setString(1, idBooking);
-            int hasil = ps.executeUpdate();
-            
-            if (hasil > 0) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Pendaftaran Berhasil Disetujui!");
-                // loadDataPendaftaran(); // Fungsi refresh milik pendaftaran
-            }
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
-        
+    
     } else {
-        // Jika belum ada menu yang dipilih
-        javax.swing.JOptionPane.showMessageDialog(this, "Menu tidak dikenali atau belum dipilih.");
+        javax.swing.JOptionPane.showMessageDialog(this, "Menu tidak dikenali. menuAktif saat ini: " + menuAktif);
     }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -358,18 +428,261 @@ public class DashboardAdmin extends javax.swing.JFrame {
             idTerpilih = -1; // Reset ID setelah dihapus
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
-private void loadDataVerifikasiPembayaran() {
-    controller.AdminController adminCtrl = new controller.AdminController();
-    javax.swing.table.DefaultTableModel model = adminCtrl.getPembayaranMenungguVerifikasi();
+
+    private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
+        // TODO add your handling code here:
+        if (tampilkanDIContent.getRowCount() == 0) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Tidak ada data untuk dicetak!");
+        return;
+    }
+
+    // 1. Munculkan Dialog pemilihan tempat menyimpan file (Save Dialog)
+    javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+    fileChooser.setDialogTitle("Simpan Laporan PDF");
+    // Set nama file default otomatis berdasarkan menu aktif
+    fileChooser.setSelectedFile(new java.io.File("Laporan_" + menuAktif.toLowerCase() + ".pdf"));
+
+    int userSelection = fileChooser.showSaveDialog(this);
+
+    if (userSelection == javax.swing.JFileChooser.APPROVE_OPTION) {
+        java.io.File fileSimpan = fileChooser.getSelectedFile();
+        String path = fileSimpan.getAbsolutePath();
+        
+        // Memastikan ekstensi file tetap .pdf
+        if (!path.toLowerCase().endsWith(".pdf")) {
+            path += ".pdf";
+        }
+
+        // 2. Proses pembuatan struktur Dokumen PDF menggunakan iText
+        com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+        try {
+            com.itextpdf.text.pdf.PdfWriter.getInstance(document, new java.io.FileOutputStream(path));
+            document.open();
+
+            // Tambah Judul di dalam PDF
+            com.itextpdf.text.Font fontJudul = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 16, com.itextpdf.text.Font.BOLD);
+            com.itextpdf.text.Paragraph judul = new com.itextpdf.text.Paragraph("DATA " + menuAktif.toUpperCase() + "\n\n", fontJudul);
+            judul.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
+            document.add(judul);
+
+            // Membuat tabel PDF dengan jumlah kolom sesuai tabel di aplikasi
+            int jumlahKolom = tampilkanDIContent.getColumnCount();
+            com.itextpdf.text.pdf.PdfPTable pdfTable = new com.itextpdf.text.pdf.PdfPTable(jumlahKolom);
+            pdfTable.setWidthPercentage(100); // Lebar tabel 100% halaman
+
+            // Ambil Nama-nama Kolom (Header)
+            com.itextpdf.text.Font fontHeader = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 10, com.itextpdf.text.Font.BOLD);
+            for (int i = 0; i < jumlahKolom; i++) {
+                com.itextpdf.text.pdf.PdfPCell cell = new com.itextpdf.text.pdf.PdfPCell(new com.itextpdf.text.Phrase(tampilkanDIContent.getColumnName(i), fontHeader));
+                cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
+                cell.setBackgroundColor(com.itextpdf.text.BaseColor.LIGHT_GRAY);
+                pdfTable.addCell(cell);
+            }
+
+            // Ambil Data Baris dari JTable masukkan ke PDF
+            com.itextpdf.text.Font fontIsi = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 9, com.itextpdf.text.Font.NORMAL);
+            for (int baris = 0; baris < tampilkanDIContent.getRowCount(); baris++) {
+                for (int kolom = 0; kolom < jumlahKolom; kolom++) {
+                    Object value = tampilkanDIContent.getValueAt(baris, kolom);
+                    String teksCell = (value != null) ? value.toString() : "";
+                    pdfTable.addCell(new com.itextpdf.text.Phrase(teksCell, fontIsi));
+                }
+            }
+
+            document.add(pdfTable);
+            javax.swing.JOptionPane.showMessageDialog(this, "Laporan sukses disimpan ke PDF:\n" + path);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal membuat PDF: " + e.getMessage());
+        } finally {
+            if (document.isOpen()) {
+                document.close(); // Tutup koneksi dokumen stream wajib dilakukan
+            }
+        }
+    }
+    }//GEN-LAST:event_btnCetakActionPerformed
+// Fungsi untuk memuat data pendaftaran (Hanya status 'Menunggu Verifikasi')
+public void loadDataVerifikasiPendaftaran() {
+    String[] kolom = {"ID Booking", "Nama Pendaki", "Jalur", "Status Booking"};
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
     
-    // MENGGUNAKAN NAMA TABEL ASLIMU
-    tampilkanDIContent.setModel(model);
+    String sql = "SELECT b.id_booking, u.nama AS nama_pendaki, j.nama_jalur, b.status_booking " +
+                 "FROM booking b " +
+                 "JOIN pendaki p ON b.id_pendaki = p.id_pendaki " +
+                 "JOIN users u ON p.id_user = u.id_user " +
+                 "JOIN jalur_pendakian j ON b.id_jalur = j.id_jalur " +
+                 "WHERE b.status_booking = 'Menunggu Verifikasi'"; // Mengunci pendaftaran baru saja
+
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.Statement stmt = conn.createStatement();
+         java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("id_booking"), rs.getString("nama_pendaki"), rs.getString("nama_jalur"), rs.getString("status_booking")
+            });
+        }
+        tampilkanDIContent.setModel(model);
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+// Fungsi untuk memuat data pembayaran (Sudah disetujui pendaftarannya, pembayarannya belum lunas)
+public void loadDataVerifikasiPembayaran() {
+    String[] kolom = {"ID Booking", "Nama Pendaki", "Jalur", "Status Booking", "Status Pembayaran"};
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
     
+    String sql = "SELECT b.id_booking, u.nama AS nama_pendaki, j.nama_jalur, b.status_booking, b.status_pembayaran " +
+                 "FROM booking b " +
+                 "JOIN pendaki p ON b.id_pendaki = p.id_pendaki " +
+                 "JOIN users u ON p.id_user = u.id_user " +
+                 "JOIN jalur_pendakian j ON b.id_jalur = j.id_jalur " +
+                 "WHERE b.status_booking = 'Disetujui' AND b.status_pembayaran IN ('Belum Bayar', 'Menunggu Verifikasi')";
+
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.Statement stmt = conn.createStatement();
+         java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("id_booking"), rs.getString("nama_pendaki"), rs.getString("nama_jalur"), rs.getString("status_booking"), rs.getString("status_pembayaran")
+            });
+        }
+        tampilkanDIContent.setModel(model);
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
+    }
+}
+public void loadDataLaporan() {
+    String[] kolom = {"ID Booking", "Nama Pendaki", "Jalur", "Total Bayar", "Status Pembayaran"};
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
+    
+    // KONDISI: Hanya mengambil data yang sudah LUNAS
+    String sql = "SELECT b.id_booking, u.nama AS nama_pendaki, j.nama_jalur, b.total_biaya, b.status_pembayaran " +
+                 "FROM booking b " +
+                 "JOIN pendaki p ON b.id_pendaki = p.id_pendaki " +
+                 "JOIN users u ON p.id_user = u.id_user " +
+                 "JOIN jalur_pendakian j ON b.id_jalur = j.id_jalur " +
+                 "WHERE b.status_pembayaran = 'Lunas'"; // <--- Kunci utama data masuk laporan
+
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.Statement stmt = conn.createStatement();
+         java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("id_booking"),
+                rs.getString("nama_pendaki"),
+                rs.getString("nama_jalur"),
+                rs.getInt("total_biaya"),
+                rs.getString("status_pembayaran")
+            });
+        }
+        tampilkanDIContent.setModel(model); // Menampilkan ke tabel utama admin
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
+    }
+}
+public void loadDataJalur() {
+    // Menampilkan jScrollPane1 jika sebelumnya disembunyikan
     jScrollPane1.setVisible(true);
-    tampilkanDIContent.setVisible(true);
     
-    this.revalidate();
-    this.repaint();
+    String[] kolom = {"ID Jalur", "Nama Gunung", "Nama Jalur", "Status Jalur"};
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
+    
+    // Query SQL untuk menggabungkan tabel jalur_pendakian dengan tabel gunung
+    String sql = "SELECT j.id_jalur, g.nama_gunung, j.nama_jalur, j.status_jalur " +
+                 "FROM jalur_pendakian j " +
+                 "JOIN gunung g ON j.id_gunung = g.id_gunung";
+
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.Statement stmt = conn.createStatement();
+         java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("id_jalur"),
+                rs.getString("nama_gunung"),
+                rs.getString("nama_jalur"),
+                rs.getString("status_jalur")
+            });
+        }
+        tampilkanDIContent.setModel(model);
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal memuat data jalur: " + e.getMessage());
+    }
+}
+private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String namaJalurLama, String statusJalurLama) {
+    // 1. Membuat frame Pop-up (Dialog) kecil
+    javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Kelola Detail Jalur - " + namaGunung, true);
+    dialog.setSize(350, 220);
+    dialog.setLayout(null);
+    dialog.setLocationRelativeTo(this); // Biar pop-up muncul di tengah layar
+
+    // 2. Membuat Label & Text Field untuk Nama Jalur (txt)
+    javax.swing.JLabel lblNama = new javax.swing.JLabel("Nama Jalur:");
+    lblNama.setBounds(20, 20, 100, 25);
+    dialog.add(lblNama);
+
+    javax.swing.JTextField txtNamaJalur = new javax.swing.JTextField(namaJalurLama);
+    txtNamaJalur.setBounds(120, 20, 180, 25);
+    dialog.add(txtNamaJalur);
+
+    // 3. Membuat Label & Combo Box untuk Status Jalur (cb)
+    javax.swing.JLabel lblStatus = new javax.swing.JLabel("Status Jalur:");
+    lblStatus.setBounds(20, 60, 100, 25);
+    dialog.add(lblStatus);
+
+    String[] pilihanStatus = {"Buka", "Tutup"};
+    javax.swing.JComboBox<String> cbStatusJalur = new javax.swing.JComboBox<>(pilihanStatus);
+    cbStatusJalur.setSelectedItem(statusJalurLama); // Otomatis pilih sesuai data lama
+    cbStatusJalur.setBounds(120, 60, 180, 25);
+    dialog.add(cbStatusJalur);
+
+    // 4. Membuat Tombol SIMPAN SIMAKSI
+    javax.swing.JButton btnSimpan = new javax.swing.JButton("Simpan Perubahan");
+    btnSimpan.setBounds(120, 110, 150, 30);
+    dialog.add(btnSimpan);
+
+    // 5. Logika ketika tombol SIMPAN di dalam pop-up diklik
+    btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            String namaJalurBaru = txtNamaJalur.getText().trim();
+            String statusJalurBaru = cbStatusJalur.getSelectedItem().toString();
+
+            if (namaJalurBaru.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(dialog, "Nama jalur tidak boleh kosong!");
+                return;
+            }
+
+            // Eksekusi Update ke Database simaksi_online
+            String sql = "UPDATE jalur_pendakian SET nama_jalur = ?, status_jalur = ? WHERE id_jalur = ?";
+            try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+                 java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+                
+                ps.setString(1, namaJalurBaru);
+                ps.setString(2, statusJalurBaru);
+                ps.setString(3, idJalur);
+
+                int hasil = ps.executeUpdate();
+                if (hasil > 0) {
+                    javax.swing.JOptionPane.showMessageDialog(dialog, "Data Jalur Berhasil Diperbarui!");
+                    dialog.dispose(); // Tutup jendela pop-up form
+                    loadDataJalur();  // Refresh tabel utama admin biar langsung berubah
+                }
+            } catch (java.sql.SQLException ex) {
+                ex.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(dialog, "Error update database: " + ex.getMessage());
+            }
+        }
+    });
+
+    // Menampilkan jendela pop-up ke layar
+    dialog.setVisible(true);
 }
     /**
      * @param args the command line arguments
@@ -413,6 +726,7 @@ private void loadDataVerifikasiPembayaran() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tampilkanDIContent;
     // End of variables declaration//GEN-END:variables

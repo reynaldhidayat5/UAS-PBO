@@ -4,12 +4,14 @@
  */
 package View;
 
+import controller.BookingController;
+
 /**
  *
  * @author reyna
  */
 public class GunungDanVia extends javax.swing.JFrame {
-    
+    controller.BookingController bookingController = new controller.BookingController();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GunungDanVia.class.getName());
 
     /**
@@ -17,6 +19,7 @@ public class GunungDanVia extends javax.swing.JFrame {
      */
     public GunungDanVia() {
         initComponents();
+        bookingController.loadGunung(cbGunung);
     }
 
     /**
@@ -29,18 +32,18 @@ public class GunungDanVia extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbGunung = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
+        cbVia = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblGambarVia = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -48,9 +51,8 @@ public class GunungDanVia extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 6));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih disini", "Semeru", "Rinjani" }));
-        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        cbGunung.addActionListener(this::cbGunungActionPerformed);
+        jPanel2.add(cbGunung, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Pilih Gunung");
@@ -58,22 +60,15 @@ public class GunungDanVia extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Pilih Via");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, -1));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(this::jComboBox2ActionPerformed);
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, -1));
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 130, 150));
+        cbVia.addActionListener(this::cbViaActionPerformed);
+        jPanel2.add(cbVia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 48, 130, -1));
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 110, 30));
-
-        jLabel3.setText("Jalur ");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
+        jPanel2.add(lblGambarVia, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 180, 210));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 360, 220));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (3).png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 400, 260));
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setForeground(new java.awt.Color(0, 153, 0));
@@ -89,34 +84,106 @@ public class GunungDanVia extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addContainerGap(83, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(57, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 400, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 400, 60));
+
+        jButton1.setBackground(new java.awt.Color(255, 102, 102));
+        jButton1.setText("<--");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (3).png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 400, 310));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cbGunungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGunungActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        try {
+        Object selected = cbGunung.getSelectedItem();
+        
+        // Cek apakah yang dipilih benar-benar objek Gunung
+        if (selected instanceof model.Gunung) {
+            model.Gunung g = (model.Gunung) selected;
+            
+            // Panggil controller untuk mengisi cbVia berdasarkan ID Gunung
+            bookingController.loadJalurByGunung(g.getIdGunung(), cbVia); 
+            
+        } else {
+            System.out.println("Yang diklik bukan objek Gunung, melainkan: " + selected);
+        }
+    } catch (Exception e) {
+        System.out.println("Terjadi error saat memilih gunung: " + e.getMessage());
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_cbGunungActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cbViaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbViaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+        try {
+        Object selected = cbVia.getSelectedItem();
+        
+        // Pastikan yang dipilih adalah objek Jalur_Pendakian
+        if (selected instanceof model.Jalur_Pendakian) {
+            model.Jalur_Pendakian jalur = (model.Jalur_Pendakian) selected;
+            
+            // 1. Ambil nama jalur dari database (Contoh terbaca: "Jalur Mawar")
+            String namaJalurDB = jalur.getNamaJalur();
+            
+            // 2. Ubah "Jalur Mawar" menjadi "MAWAR.png"
+            // Logika: Hapus kata "Jalur " -> jadikan huruf besar semua -> tambah ".png"
+            String namaFile = namaJalurDB.replace("Jalur ", "").toUpperCase() + ".png";
+            
+            // 3. Tentukan letak folder (Karena foldermu bernama 'images', pakai "/images/")
+            String pathGambar = "/images/" + namaFile;
+            
+            // 4. Cari dan muat gambar dari dalam package project
+            java.net.URL imgURL = getClass().getResource(pathGambar);
+            
+            if (imgURL != null) {
+                javax.swing.ImageIcon icon = new javax.swing.ImageIcon(imgURL);
+                
+                // 5. (Opsional tapi penting) Skala gambar agar pas dengan ukuran JLabel di layar
+                java.awt.Image imgScale = icon.getImage().getScaledInstance(
+                        lblGambarVia.getWidth(), 
+                        lblGambarVia.getHeight(), 
+                        java.awt.Image.SCALE_SMOOTH
+                );
+                
+                // 6. Tampilkan gambar ke JLabel
+                lblGambarVia.setIcon(new javax.swing.ImageIcon(imgScale));
+                
+            } else {
+                System.out.println("Gagal memuat: Gambar " + namaFile + " tidak ditemukan di folder images!");
+                lblGambarVia.setIcon(null); // Kosongkan label jika gambar ga ada
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("Terjadi error saat memuat gambar jalur: " + e.getMessage());
+    }
+    }//GEN-LAST:event_cbViaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new Beranda().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,18 +211,18 @@ public class GunungDanVia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cbGunung;
+    private javax.swing.JComboBox<String> cbVia;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblGambarVia;
     // End of variables declaration//GEN-END:variables
 }

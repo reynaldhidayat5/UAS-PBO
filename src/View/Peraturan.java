@@ -4,6 +4,8 @@
  */
 package View;
 
+import model.Pendaki;
+
 /**
  *
  * @author reyna
@@ -11,16 +13,23 @@ package View;
 public class Peraturan extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Peraturan.class.getName());
+    private Pendaki pendakiAktif;
 
     /**
      * Creates new form Peraturan
      */
     public Peraturan() {
         initComponents();
-        this.setLocationRelativeTo(null); // Agar form di tengah (opsional)
+        this.setLocationRelativeTo(null);
+        // Agar form di tengah (opsional)
         
         // 1. TAMBAHKAN KODE INI UNTUK MENGUNCI TOMBOL LANJUTKAN
         btnLanjut.setEnabled(false);
+    }
+
+    public Peraturan(Pendaki pendaki) {
+        initComponents();
+        this.pendakiAktif = pendaki; // Mengamankan data login pendaki
     }
 
     /**
@@ -216,14 +225,18 @@ public class Peraturan extends javax.swing.JFrame {
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
         // TODO add your handling code here:
-        new Beranda().setVisible(true);
-        this.dispose();
+        View.Beranda formBeranda = new View.Beranda();
+    formBeranda.setVisible(true);
+    
+    this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnLanjutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanjutActionPerformed
         // TODO add your handling code here:
-        new Pemesanan().setVisible(true);
-        this.dispose();
+        new Pemesanan(this.pendakiAktif).setVisible(true); 
+    this.dispose();
+    // Tutup halaman Peraturan
+    this.dispose();
     }//GEN-LAST:event_btnLanjutActionPerformed
 
     private void chekItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chekItemStateChanged

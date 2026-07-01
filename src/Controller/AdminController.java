@@ -66,32 +66,39 @@ public class AdminController {
             return false;
         }
     }
-    public DefaultTableModel getPembayaranMenungguVerifikasi() {
-        // Kolom yang akan ditampilkan di tabel admin
-        String[] header = {"ID Booking", "ID User", "Metode", "Status", "Bukti File"};
-        DefaultTableModel modelTabel = new DefaultTableModel(null, header);
-        
-        // Query untuk mengambil data booking yang menunggu verifikasi
-        String sql = "SELECT id_booking, id_user, metode_pembayaran, status_pembayaran, bukti_pembayaran FROM booking WHERE status_pembayaran = 'Menunggu Verifikasi'";
-        
-        try (Connection conn = Koneksi.getInstance().getKoneksi();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
-            while (rs.next()) {
-                Object[] baris = new Object[5];
-                baris[0] = rs.getInt("id_booking");
-                baris[1] = rs.getInt("id_user");
-                baris[2] = rs.getString("metode_pembayaran");
-                baris[3] = rs.getString("status_pembayaran");
-                baris[4] = rs.getString("bukti_pembayaran"); // Path file/gambar struk
-                
-                modelTabel.addRow(baris);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error ambil data verifikasi: " + e.getMessage());
+    public javax.swing.table.DefaultTableModel getPembayaranMenungguVerifikasi() {
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel();
+    
+    // Atur kolom sesuai kebutuhan data yang ingin ditampilkan admin
+    model.addColumn("ID Booking");
+    model.addColumn("Nama Pendaki");
+    model.addColumn("Jalur");
+    model.addColumn("Status Pendaftaran");
+    model.addColumn("Status Pembayaran");
+
+    // QUERY UTAMA: Hanya mengambil data yang pendaftarannya sudah disetujui 
+    // DAN pendaki sudah upload bukti (status_pembayaran = 'Menunggu Verifikasi')
+    String sql = "SELECT id_booking, nama_pendaki, nama_jalur, status_pendaftaran, status_pembayaran " +
+                 "FROM booking " +
+                 "WHERE status_pendaftaran = 'Disetujui' AND status_pembayaran = 'Menunggu Verifikasi'";
+
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.Statement stmt = conn.createStatement();
+         java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("id_booking"),
+                rs.getString("nama_pendaki"),
+                rs.getString("nama_jalur"),
+                rs.getString("status_pendaftaran"),
+                rs.getString("status_pembayaran")
+            });
         }
-        
-        return modelTabel;
+    } catch (java.sql.SQLException e) {
+        e.printStackTrace();
     }
+    
+    return model;
+}
 }

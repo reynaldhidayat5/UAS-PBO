@@ -42,7 +42,6 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnKeRegister = new javax.swing.JLabel();
         TxtPassword = new javax.swing.JPasswordField();
-        btnBatal = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
         jLabel6.setText("jLabel6");
@@ -122,12 +121,6 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(btnKeRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, -1, -1));
         getContentPane().add(TxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 199, -1));
 
-        btnBatal.setBackground(new java.awt.Color(255, 51, 51));
-        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnBatal.setText("<--");
-        btnBatal.addActionListener(this::btnBatalActionPerformed);
-        getContentPane().add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
-
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (3).png"))); // NOI18N
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 390, 230));
 
@@ -139,48 +132,42 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnKeRegisterMouseClicked
 
-    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        new Beranda().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnBatalActionPerformed
-
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-       String email = TxtEmail.getText().trim();
-    String password = new String(TxtPassword.getPassword()).trim();
+    String email = TxtEmail.getText();
+        String password = new String(TxtPassword.getPassword());
 
-    // Validasi input kosong
-    if (email.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Email dan Password tidak boleh kosong!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    // Memanggil AuthController untuk cek login
-    controller.AuthController auth = new controller.AuthController();
-    model.User userSukses = auth.loginUser(email, password);
-
-    if (userSukses != null) {
-        JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat Datang, " + userSukses.getNama());
-        config.Session.setIdPendaki(userSukses.getIdUser()); 
-        config.Session.setNamaPendaki(userSukses.getNama());
-        // CEK ROLE USER YANG LOGIN
-        if ("admin".equalsIgnoreCase(userSukses.getRole())) {
-            // Jika login sebagai Admin, buka Dashboard Admin
-            // (Ganti 'DashboardAdmin' dengan nama class JFrame Admin milikmu jika berbeda)
-            View.DashboardAdmin adminPage = new View.DashboardAdmin();
-            adminPage.setVisible(true);
-        } else {
-            // JIKA LOGIN SEBAGAI PENDAKI, LANGSUNG BUKA BERANDA
-            // (Pastikan nama class Beranda milikmu sudah sesuai, misal 'Beranda' atau 'MainFrame')
-            View.Beranda berandaPage = new View.Beranda(); 
-            berandaPage.setVisible(true);
+        // Validasi input kosong
+        if (email.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Email dan Password tidak boleh kosong!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        // Tutup halaman login saat ini
-        this.dispose();
-    } else {
-        // Jika email atau password salah
-        JOptionPane.showMessageDialog(this, "Email atau Password salah!", "Gagal Login", JOptionPane.ERROR_MESSAGE);
-    }
+        // Panggil AuthController untuk proses login
+        controller.AuthController auth = new controller.AuthController();
+        model.User userLogin = auth.loginUser(email, password);
+
+        // Cek hasil login
+        if (userLogin != null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat datang, " + userLogin.getNama());
+            
+            if ("pendaki".equalsIgnoreCase(userLogin.getRole())) {
+                // Buka Beranda Pendaki
+                Beranda b = new Beranda((model.Pendaki) userLogin); 
+                b.setVisible(true);
+                this.dispose();
+            } else if ("admin".equalsIgnoreCase(userLogin.getRole())) {
+                // Buka Beranda Admin
+                // SILAKAN GANTI 'BerandaAdmin' dengan nama class JFrame Admin kamu!
+                // new BerandaAdmin().setVisible(true); 
+                
+                // Sementara dikasih alert dulu agar aplikasi tidak langsung hilang/close misterius
+                javax.swing.JOptionPane.showMessageDialog(this, "Membuka halaman Dashboard Admin...");
+                this.dispose();
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Login Gagal! Email atau Password salah.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
@@ -211,7 +198,6 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TxtEmail;
     private javax.swing.JPasswordField TxtPassword;
-    private javax.swing.JButton btnBatal;
     private javax.swing.JLabel btnKeRegister;
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;

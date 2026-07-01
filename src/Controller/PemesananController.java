@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement; 
 import model.Booking;
 
 public class PemesananController {
@@ -15,36 +16,32 @@ public class PemesananController {
         this.koneksiDB = Koneksi.getInstance().getKoneksi();
     }
 
-    /**
-     * PERBAIKAN: Parameter menerima objek Booking, String gunung, dan String jalur
-     * agar sesuai dengan pemanggilan dari form Pemesanan.
-     */
-    public boolean simpanBooking(Booking b, String gunung, String jalur) {
-        String sql = "INSERT INTO booking (tanggal_naik, tanggal_turun, status_booking) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
-            if (b.getTanggalNaik() != null) {
-                ps.setDate(1, new java.sql.Date(b.getTanggalNaik().getTime()));
-            } else {
-                ps.setNull(1, java.sql.Types.DATE);
+    public String tambahBooking(Booking booking) {
+        String sql = "INSERT INTO booking (id_pendaki, id_gunung, id_jalur, tanggal_naik, tanggal_turun, total_biaya, status_pembayaran) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = koneksiDB.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
+            ps.setInt(1, booking.getId_pendaki()); 
+            ps.setInt(2, booking.getId_gunung());
+            ps.setInt(3, booking.getId_jalur());
+            ps.setString(4, booking.getTanggal_naik());
+            ps.setString(5, booking.getTanggal_turun());
+            ps.setInt(6, booking.getTotal_biaya());
+            ps.setString(7, booking.getStatus_pembayaran());
+            
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    return String.valueOf(rs.getInt(1)); // Mengembalikan ID booking yang sukses dibuat
+                }
             }
-            
-            if (b.getTanggalTurun() != null) {
-                ps.setDate(2, new java.sql.Date(b.getTanggalTurun().getTime()));
-            } else {
-                ps.setNull(2, java.sql.Types.DATE);
-            }
-            
-            ps.setString(3, b.getStatusBooking());
-            
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return null;
     }
 
-    /** Mengembalikan sisa kuota untuk jalur dengan id tertentu. */
     public int cekKuotaJalur(int idJalur) {
         String sql = "SELECT kuota_tersisa FROM jalur_pendakian WHERE id_jalur = ?";
         try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
@@ -60,13 +57,13 @@ public class PemesananController {
     }
 
     public boolean verifikasiPembayaran(int idBooking) {
-        String sql = "UPDATE booking SET status_booking = 'Lunas' WHERE id_booking = ?";
+        String sql = "UPDATE booking SET status_pembayaran = 'Lunas' WHERE id_booking = ?";
         try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
             ps.setInt(1, idBooking);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 }

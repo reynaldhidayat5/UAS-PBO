@@ -13,17 +13,20 @@ import model.Pendaki;
 public class Beranda extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Beranda.class.getName());
-
+    private model.Pendaki pendakiAktif;
     /**
      * Creates new form Login
      */
     public Beranda() {
         initComponents();
+        
     }
 
-    Beranda(Pendaki pendaki) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   public Beranda(model.Pendaki pendaki) {
+    initComponents();
+    this.pendakiAktif = pendaki;
+    
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,13 +42,13 @@ public class Beranda extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnJadwal = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnJalurPendakian = new javax.swing.JButton();
         btnPemesanan = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnAduanKritikSaran = new javax.swing.JButton();
+        btnRiwayatPemesanan = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -68,15 +71,17 @@ public class Beranda extends javax.swing.JFrame {
         btnJadwal.addActionListener(this::btnJadwalActionPerformed);
         getContentPane().add(btnJadwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, -1, -1));
 
-        jButton2.setText("Jalur Pendakian");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, -1));
+        btnJalurPendakian.setText("Jalur Pendakian");
+        btnJalurPendakian.addActionListener(this::btnJalurPendakianActionPerformed);
+        getContentPane().add(btnJalurPendakian, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, -1));
 
         btnPemesanan.setText("Pemesanan");
         btnPemesanan.addActionListener(this::btnPemesananActionPerformed);
         getContentPane().add(btnPemesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, -1, -1));
 
-        jButton4.setText("Promo");
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        jButton4.setText("Logout");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Whatsapp : 0811 4242 89888");
@@ -87,11 +92,12 @@ public class Beranda extends javax.swing.JFrame {
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 294, 160, -1));
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        btnAduanKritikSaran.setText("Riwayat Pemesanan");
-        getContentPane().add(btnAduanKritikSaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 300, -1, -1));
+        btnRiwayatPemesanan.setText("Riwayat Pemesanan");
+        btnRiwayatPemesanan.addActionListener(this::btnRiwayatPemesananActionPerformed);
+        getContentPane().add(btnRiwayatPemesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 300, -1, -1));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 340));
@@ -106,10 +112,40 @@ public class Beranda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnJadwalActionPerformed
 
     private void btnPemesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPemesananActionPerformed
-        // TODO add your handling code here:
-         new Peraturan().setVisible(true);
-        this.dispose();
+        new Peraturan(this.pendakiAktif).setVisible(true); 
+    this.dispose();
     }//GEN-LAST:event_btnPemesananActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        int opsi = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "Apakah Anda yakin ingin keluar dari aplikasi?", 
+            "Konfirmasi Log Out", 
+            javax.swing.JOptionPane.YES_NO_OPTION, 
+            javax.swing.JOptionPane.QUESTION_MESSAGE);
+    
+  
+    if (opsi == javax.swing.JOptionPane.YES_OPTION) {
+        
+        this.dispose(); 
+        
+       
+        View.Login loginForm = new View.Login(); 
+        loginForm.setVisible(true);
+    }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnJalurPendakianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJalurPendakianActionPerformed
+        // TODO add your handling code here:
+        new GunungDanVia().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnJalurPendakianActionPerformed
+
+    private void btnRiwayatPemesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRiwayatPemesananActionPerformed
+        // TODO add your handling code here:
+        new Report_Pendaki(this.pendakiAktif.getIdPendaki()).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRiwayatPemesananActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,10 +177,10 @@ public class Beranda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAduanKritikSaran;
     private javax.swing.JButton btnJadwal;
+    private javax.swing.JButton btnJalurPendakian;
     private javax.swing.JButton btnPemesanan;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnRiwayatPemesanan;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

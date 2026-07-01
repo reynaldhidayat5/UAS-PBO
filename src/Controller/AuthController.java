@@ -46,38 +46,56 @@ public class AuthController {
     }
 
     private Admin ambilAdmin(int idUser, String nama, String email, String noHp, String password) {
-        String sql = "SELECT * FROM admin WHERE id_user = ?";
-        try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
-            ps.setInt(1, idUser);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Admin a = new Admin(rs.getInt("id_admin"), nama, email, noHp, password, rs.getString("shift_kerja"));
-                a.setIdUser(idUser);
-                return a;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    String sql = "SELECT * FROM admin WHERE id_user = ?";
+    try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
+        ps.setInt(1, idUser);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            Admin a = new Admin(rs.getInt("id_admin"), idUser, rs.getString("shift_kerja"));
+            a.setNama(nama);
+            a.setEmail(email);
+            a.setNoHp(noHp);
+            a.setPassword(password);
+            
+            // 👇 TAMBAHKAN BARIS INI
+            a.setRole("admin"); 
+            
+            return a;
         }
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return null;
+}
 
-    private Pendaki ambilPendaki(int idUser, String nama, String email, String noHp, String password) {
-        String sql = "SELECT * FROM pendaki WHERE id_user = ?";
-        try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
-            ps.setInt(1, idUser);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Pendaki p = new Pendaki(rs.getInt("id_pendaki"), nama, email, noHp, password,
-                        rs.getString("nik"), rs.getString("foto_ktp"), rs.getString("alamat"),
-                        rs.getString("kontak_darurat"), rs.getString("jenis_kelamin"));
-                p.setIdUser(idUser);
-                return p;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+private Pendaki ambilPendaki(int idUser, String nama, String email, String noHp, String password) {
+    String sql = "SELECT * FROM pendaki WHERE id_user = ?";
+    try (PreparedStatement ps = koneksiDB.prepareStatement(sql)) {
+        ps.setInt(1, idUser);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            // SINKRONKAN: Panggil constructor 10 parameter sesuai yang ada di Pendaki.java kamu
+            Pendaki p = new Pendaki(
+                rs.getInt("id_pendaki"),        
+                nama,                           
+                email,                          
+                noHp,                          
+                password,                     
+                rs.getString("nik"),          
+                rs.getString("foto_ktp"),      
+                rs.getString("alamat"),        
+                rs.getString("kontak_darurat"),  
+                rs.getString("jenis_kelamin")   
+            );
+            
+            p.setRole("pendaki"); 
+            return p;
         }
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return null;
+}
 
     /** * PERBAIKAN: Mengubah tipe parameter pertama menjadi String nama 
      * agar sesuai dengan pengiriman data String dari View Registrasi.

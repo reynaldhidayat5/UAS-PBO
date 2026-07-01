@@ -9,9 +9,10 @@ public class Pendaki extends User {
     private String kontakDarurat;
     private String jenisKelamin;
 
-    public Pendaki() {
+    public Pendaki(int aInt, int idUser1, String string, String string1, String string2, String string3, String string4) {
         super();
     }
+    
 
     public Pendaki(int idPendaki, String nama, String email, String noHp, String password,
             String nik, String fotoKTP, String alamat, String kontakDarurat, String jenisKelamin) {
@@ -82,4 +83,6 @@ public class Pendaki extends User {
     public void setJKel(String jenisKelamin) {
         this.jenisKelamin = jenisKelamin;
     }
+
+   
 }

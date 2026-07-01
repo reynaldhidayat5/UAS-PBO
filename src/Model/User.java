@@ -10,7 +10,7 @@ public class User {
     protected String email;
     protected String noHp;
     protected String password;
-    private String role;
+    String role;
 
     public User() {
     }
@@ -75,5 +75,8 @@ public String getRole() {
 
     public void setNoHp(String noHp) {
         this.noHp = noHp;
+    }
+    public void setRole(String role) {
+        this.role = role;
     }
 }
