@@ -36,12 +36,16 @@ public class CekJadwal extends javax.swing.JFrame {
         jTableJadwal = new javax.swing.JTable();
         btnKembali = new javax.swing.JButton();
         cbGunung = new javax.swing.JComboBox<>();
+        txtCari = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 236, -1, -1));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(465, 183, -1, -1));
+        getContentPane().setLayout(null);
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(446, 236, 0, 0);
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(465, 183, 0, 0);
 
         jTableJadwal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -61,18 +65,35 @@ public class CekJadwal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableJadwal);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 470, 280));
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(90, 90, 470, 280);
 
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(this::btnKembaliActionPerformed);
-        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        getContentPane().add(btnKembali);
+        btnKembali.setBounds(20, 10, 73, 23);
 
         cbGunung.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbGunung.addActionListener(this::cbGunungActionPerformed);
-        getContentPane().add(cbGunung, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 180, -1));
+        getContentPane().add(cbGunung);
+        cbGunung.setBounds(230, 20, 180, 22);
+
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtCari);
+        txtCari.setBounds(440, 60, 120, 22);
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Search");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(400, 60, 37, 16);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 390));
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(0, 0, 660, 390);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -107,6 +128,26 @@ public class CekJadwal extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_cbGunungActionPerformed
 
+    private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
+        // TODO add your handling code here:
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTableJadwal.getModel();
+    
+    // 2. Buat objek TableRowSorter untuk menyortir & menyaring model tabel
+    javax.swing.table.TableRowSorter<javax.swing.table.DefaultTableModel> sorter = new javax.swing.table.TableRowSorter<>(model);
+    jTableJadwal.setRowSorter(sorter);
+    
+    // 3. Ambil teks yang diketik user di kolom pencarian
+    String keyword = txtCari.getText();
+    
+    // 4. Proses penyaringan data
+    if (keyword.trim().length() == 0) {
+        sorter.setRowFilter(null); // Jika kolom kosong, tampilkan semua data kembali
+    } else {
+        // (?i) berguna agar pencarian TIDAK sensitif huruf besar/kecil (case-insensitive)
+        sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + keyword));
+    }
+    }//GEN-LAST:event_txtCariKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -137,8 +178,10 @@ public class CekJadwal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbGunung;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableJadwal;
+    private javax.swing.JTextField txtCari;
     // End of variables declaration//GEN-END:variables
 }

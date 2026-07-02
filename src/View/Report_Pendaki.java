@@ -60,6 +60,9 @@ public Report_Pendaki(int id_pendaki) {
         jButton3 = new javax.swing.JButton();
         btnCetakPDF = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        btnRefund = new javax.swing.JButton();
+        txtCari = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtIsiPesan = new javax.swing.JTextArea();
@@ -79,11 +82,8 @@ public Report_Pendaki(int id_pendaki) {
 
         jTabbedPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
 
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         jLabel1.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
         jLabel1.setText("Riwayat Pesanan Tiket Simaksi");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 19, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,21 +98,78 @@ public Report_Pendaki(int id_pendaki) {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 44, -1, 205));
-
         jButton2.setText("Cetak Laporan");
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(122, 289, -1, -1));
 
         jButton3.setText("Refresh");
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 289, -1, -1));
 
         btnCetakPDF.setText("Cetak PDF");
         btnCetakPDF.addActionListener(this::btnCetakPDFActionPerformed);
-        jPanel2.add(btnCetakPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 255, -1, -1));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(this::btnRefreshActionPerformed);
-        jPanel2.add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(398, 255, -1, -1));
+
+        btnRefund.setText("Refund");
+        btnRefund.addActionListener(this::btnRefundActionPerformed);
+
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariKeyReleased(evt);
+            }
+        });
+
+        jLabel7.setText("Search");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGap(41, 41, 41)
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(btnCetakPDF)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnRefund)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnRefresh))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(27, 27, 27))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCetakPDF)
+                    .addComponent(btnRefresh)
+                    .addComponent(btnRefund))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)))
+        );
 
         jTabbedPane2.addTab("Riwayat Pesanan", jPanel2);
 
@@ -350,6 +407,103 @@ public Report_Pendaki(int id_pendaki) {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_cbKategoriActionPerformed
+
+    private void btnRefundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefundActionPerformed
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow(); 
+    
+    if (row == -1) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih data pesanan di tabel yang ingin di-refund terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // 2. Ambil data ID Booking (Kolom ke-0) dan Status Pembayaran (Kolom ke-5) dari baris yang dipilih
+    String idBooking = jTable1.getValueAt(row, 0).toString();
+    String statusSaatIni = jTable1.getValueAt(row, 5).toString();
+    
+    // Validasi: Jika statusnya sudah mengajukan atau sudah selesai refund, jangan diizinkan lagi
+    if (statusSaatIni.equalsIgnoreCase("Mengajukan Refund")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Pesanan ini sedang dalam proses peninjauan refund oleh Admin!", "Informasi", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        return;
+    } else if (statusSaatIni.equalsIgnoreCase("Dibatalkan (Refund)")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Pesanan ini sudah berhasil dibatalkan dan dana telah di-refund!", "Informasi", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+    
+    // Konfirmasi awal apakah yakin ingin refund
+    int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin mengajukan refund untuk ID Booking: " + idBooking + "?", "Konfirmasi Refund", javax.swing.JOptionPane.YES_NO_OPTION);
+    if (konfirmasi != javax.swing.JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    // 3. Minta input Bank & Nomor Rekening via Pop-up
+    String rekening = javax.swing.JOptionPane.showInputDialog(this, 
+            "Masukkan Nama Bank & Nomor Rekening Pengembalian:\n(Contoh: BCA - 1234567890 a/n Reyna)", 
+            "Form Refund: Input Rekening", javax.swing.JOptionPane.QUESTION_MESSAGE);
+    
+    if (rekening == null) return; // Jika klik cancel
+    if (rekening.trim().isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Nomor rekening wajib diisi untuk proses transfer balik dana!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 4. Minta input Alasan Cancel via Pop-up
+    String alasan = javax.swing.JOptionPane.showInputDialog(this, 
+            "Masukkan alasan pembatalan / refund kamu:", 
+            "Form Refund: Input Alasan", javax.swing.JOptionPane.QUESTION_MESSAGE);
+    
+    if (alasan == null) return; // Jika klik cancel
+    if (alasan.trim().isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Alasan refund wajib diisi!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 5. Eksekusi Update ke Database
+    String sql = "UPDATE booking SET status_refund = 'Menunggu', alasan_refund = ?, rekening_pendaki = ?, status_pembayaran = 'Mengajukan Refund' WHERE id_booking = ?";
+
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, alasan);         
+        ps.setString(2, rekening);       
+        ps.setString(3, idBooking);      
+
+        int rowsUpdated = ps.executeUpdate();
+
+        if (rowsUpdated > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Pengajuan refund untuk kode " + idBooking + " berhasil dikirim!\nStatus berubah: Mengajukan Refund.");
+            
+            // 6. Refresh tabel otomatis agar status langsung terupdate di layar
+            loadRiwayatPesanan(); 
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal memproses pengajuan refund. Data tidak ditemukan.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnRefundActionPerformed
+
+    private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
+        // TODO add your handling code here:
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+    
+    // 2. Buat objek TableRowSorter untuk menyortir & menyaring model tabel
+    javax.swing.table.TableRowSorter<javax.swing.table.DefaultTableModel> sorter = new javax.swing.table.TableRowSorter<>(model);
+    jTable1.setRowSorter(sorter);
+    
+    // 3. Ambil teks yang diketik user di kolom pencarian
+    String keyword = txtCari.getText();
+    
+    // 4. Proses penyaringan data
+    if (keyword.trim().length() == 0) {
+        sorter.setRowFilter(null); // Jika kolom kosong, tampilkan semua data kembali
+    } else {
+        // (?i) berguna agar pencarian TIDAK sensitif huruf besar/kecil (case-insensitive)
+        sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + keyword));
+    }
+    }//GEN-LAST:event_txtCariKeyReleased
 public void loadRiwayatPesanan() {
     
     System.out.println("Mencari data untuk ID Pendaki: " + this.id_pendaki_aktif);
@@ -357,11 +511,11 @@ public void loadRiwayatPesanan() {
     String[] kolom = {"ID Booking", "Gunung", "Jalur", "Tanggal Naik", "Total Biaya", "Status"};
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
     
-    String sql = "SELECT b.id_booking, g.nama_gunung, j.nama_jalur, b.tanggal_naik, b.total_biaya, b.status_pembayaran " +
-             "FROM booking b " +
-             "JOIN gunung g ON b.id_gunung = g.id_gunung " +
-             "JOIN jalur_pendakian j ON b.id_jalur = j.id_jalur " +
-             "WHERE b.id_pendaki = ? AND b.status_pembayaran = 'Lunas'";
+String sql = "SELECT b.id_booking, g.nama_gunung, j.nama_jalur, b.tanggal_naik, b.total_biaya, b.status_pembayaran " +
+         "FROM booking b " +
+         "JOIN gunung g ON b.id_gunung = g.id_gunung " +
+         "JOIN jalur_pendakian j ON b.id_jalur = j.id_jalur " +
+         "WHERE b.id_pendaki = ? AND b.status_pembayaran IN ('Lunas', 'Mengajukan Refund', 'Dibatalkan (Refund)')";
 
     try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
          java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -430,6 +584,7 @@ public void loadRiwayatPesanan() {
     private javax.swing.JButton btnKembali;
     private javax.swing.JButton btnKirim;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnRefund;
     private javax.swing.JComboBox<String> cbKategori;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -439,6 +594,7 @@ public void loadRiwayatPesanan() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -447,6 +603,7 @@ public void loadRiwayatPesanan() {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtCari;
     private javax.swing.JTextArea txtIsiPesan;
     // End of variables declaration//GEN-END:variables
 }

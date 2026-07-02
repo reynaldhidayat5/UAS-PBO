@@ -164,7 +164,13 @@ public class Pembayaran extends javax.swing.JFrame {
     private void btnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadActionPerformed
         // TODO add your handling code here:
         javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
-    
+        String pathLower = pathBuktiBaru.toLowerCase();
+    if (!pathLower.endsWith(".png") && !pathLower.endsWith(".jpg") && !pathLower.endsWith(".jpeg")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Format file gambar salah! File harus berupa .png, .jpg, atau .jpeg", 
+                "Validasi Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
     if (chooser.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
         java.io.File file = chooser.getSelectedFile();
         

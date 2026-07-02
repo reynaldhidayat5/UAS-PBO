@@ -54,6 +54,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnKelolaJalur = new javax.swing.JButton();
         btnCetakLaporan = new javax.swing.JButton();
         btnKritikSaran = new javax.swing.JButton();
+        btnVerifikasiRefund = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tampilkanDIContent = new javax.swing.JTable();
@@ -61,6 +62,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnCetak = new javax.swing.JButton();
         btnLihatBukti = new javax.swing.JButton();
+        txtCari = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -114,7 +117,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 60));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 6));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -142,7 +145,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnKritikSaran.addActionListener(this::btnKritikSaranActionPerformed);
         jPanel2.add(btnKritikSaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 180, 147, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 170, 240));
+        btnVerifikasiRefund.setText("Verifikasi Refund");
+        btnVerifikasiRefund.addActionListener(this::btnVerifikasiRefundActionPerformed);
+        jPanel2.add(btnVerifikasiRefund, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 215, 147, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 170, 260));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 8));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -183,10 +190,21 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnLihatBukti.addActionListener(this::btnLihatBuktiActionPerformed);
         jPanel3.add(btnLihatBukti, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, -1, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 280));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 440, 280));
+
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(534, 90, 110, -1));
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Search");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pemandangan (1) (2).png"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 670, 300));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 670, 350));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -305,19 +323,60 @@ public class DashboardAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
        int barisTerpilih = tampilkanDIContent.getSelectedRow();
     
-    // Validasi awal: pastikan admin sudah memilih data di tabel
+    
     if (barisTerpilih == -1) {
         javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih baris data di tabel terlebih dahulu!");
         return;
     }
 
-    // Ambil ID Booking dari kolom pertama (indeks 0)
+   
     String idBooking = tampilkanDIContent.getValueAt(barisTerpilih, 0).toString();
 
-    // =========================================================================
-    // A. LOGIKA UNTUK TABEL VERIFIKASI PENDAFTARAN
-    // =========================================================================
-    if ("PENDAFTARAN".equals(menuAktif)) { 
+    
+    if ("REFUND".equals(menuAktif)) {
+        Object[] options = {"Setujui & Transfer Balik", "Tolak Refund", "Batal"};
+        int pilihan = javax.swing.JOptionPane.showOptionDialog(this, 
+                "Pilih tindakan untuk pengajuan refund ID Booking: " + idBooking, 
+                "Verifikasi Pengajuan Refund", 
+                javax.swing.JOptionPane.YES_NO_CANCEL_OPTION, 
+                javax.swing.JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (pilihan == 0) { // Setujui Refund
+            String sql = "UPDATE booking SET status_refund = 'Selesai', status_pembayaran = 'Dibatalkan (Refund)' WHERE id_booking = ?";
+            try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+                 java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, Integer.parseInt(idBooking)); // Ubah idBooking menjadi Integer
+        
+        if (ps.executeUpdate() > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Refund Berhasil Disetujui! Status otomatis dibatalkan.");
+            loadDataRefund(); // Refresh tabel refund
+        }
+    } catch (Exception e) { 
+        e.printStackTrace(); 
+        javax.swing.JOptionPane.showMessageDialog(this, "Error DB: " + e.getMessage());
+    }
+            
+        } else if (pilihan == 1) { // Tolak Refund
+            String alasanTolak = javax.swing.JOptionPane.showInputDialog(this, "Masukkan alasan penolakan:");
+            if (alasanTolak == null || alasanTolak.trim().isEmpty()) return;
+            
+            String sql = "UPDATE booking SET status_refund = 'Ditolak', status_pembayaran = 'Lunas', alasan_refund = ? WHERE id_booking = ?";
+            try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+                 java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, "DITOLAK: " + alasanTolak);
+                ps.setString(2, idBooking);
+                if (ps.executeUpdate() > 0) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Refund Berhasil Ditolak. Status pesanan kembali menjadi Lunas.");
+                    loadDataRefund(); // Refresh tabel refund
+                }
+            } catch (java.sql.SQLException e) { 
+                e.printStackTrace(); 
+                javax.swing.JOptionPane.showMessageDialog(this, "Error DB: " + e.getMessage());
+            }
+        }
+
+    
+    } else if ("PENDAFTARAN".equals(menuAktif)) { 
         // Query mengubah status_booking jadi Disetujui agar ILANG dari pendaftaran
         // dan memastikan status_pembayaran 'Belum Bayar' agar MASUK ke pembayaran
         String sql = "UPDATE booking SET status_booking = 'Disetujui', status_pembayaran = 'Belum Bayar' WHERE id_booking = ?";
@@ -338,9 +397,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Error database pendaftaran: " + e.getMessage());
         }
 
-    // =========================================================================
-    // B. LOGIKA UNTUK TABEL VERIFIKASI PEMBAYARAN
-    // =========================================================================
+    
     } else if ("PEMBAYARAN".equals(menuAktif)) { 
         String sql = "UPDATE booking SET status_pembayaran = 'Lunas' WHERE id_booking = ?";
         try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
@@ -358,9 +415,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Error database pembayaran: " + e.getMessage());
         }
 
-    // =========================================================================
-    // C. LOGIKA UNTUK TABEL KELOLA JALUR PENDAKIAN
-    // =========================================================================
+    
     } else if ("JALUR".equals(menuAktif)) {
         String idJalur = tampilkanDIContent.getValueAt(barisTerpilih, 0).toString();
         String namaJalurLama = tampilkanDIContent.getValueAt(barisTerpilih, 2).toString();
@@ -583,7 +638,37 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 "File Tidak Ditemukan", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_btnLihatBuktiActionPerformed
-// Fungsi untuk memuat data pendaftaran (Hanya status 'Menunggu Verifikasi')
+
+    private void btnVerifikasiRefundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifikasiRefundActionPerformed
+       menuAktif = "REFUND"; 
+jScrollPane1.setVisible(true); 
+btnUpdate.setVisible(true);
+btnDelete.setVisible(true);
+btnCetak.setVisible(false);
+btnLihatBukti.setVisible(false);
+loadDataRefund();
+    }//GEN-LAST:event_btnVerifikasiRefundActionPerformed
+
+    private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
+        // TODO add your handling code here:
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tampilkanDIContent.getModel();
+    
+    
+    javax.swing.table.TableRowSorter<javax.swing.table.DefaultTableModel> sorter = new javax.swing.table.TableRowSorter<>(model);
+    tampilkanDIContent.setRowSorter(sorter);
+    
+    
+    String keyword = txtCari.getText();
+    
+    
+    if (keyword.trim().length() == 0) {
+        sorter.setRowFilter(null); 
+    } else {
+        
+        sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + keyword));
+    }
+    }//GEN-LAST:event_txtCariKeyReleased
+
 public void loadDataVerifikasiPendaftaran() {
     String[] kolom = {"ID Booking", "Nama Pendaki", "Jalur", "Status Booking"};
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
@@ -610,7 +695,7 @@ public void loadDataVerifikasiPendaftaran() {
     }
 }
 
-// Fungsi untuk memuat data pembayaran (Sudah disetujui pendaftarannya, pembayarannya belum lunas)
+
 public void loadDataVerifikasiPembayaran() {
     String[] kolom = {"ID Booking", "Nama Pendaki", "Jalur", "Status Booking", "Status Pembayaran"};
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
@@ -640,7 +725,7 @@ public void loadDataLaporan() {
     String[] kolom = {"ID Booking", "Nama Pendaki", "Jalur", "Total Bayar", "Status Pembayaran"};
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
     
-    // KONDISI: Hanya mengambil data yang sudah LUNAS
+    
     String sql = "SELECT b.id_booking, u.nama AS nama_pendaki, j.nama_jalur, b.total_biaya, b.status_pembayaran " +
                  "FROM booking b " +
                  "JOIN pendaki p ON b.id_pendaki = p.id_pendaki " +
@@ -667,13 +752,13 @@ public void loadDataLaporan() {
     }
 }
 public void loadDataJalur() {
-    // Menampilkan jScrollPane1 jika sebelumnya disembunyikan
+    
     jScrollPane1.setVisible(true);
     
     String[] kolom = {"ID Jalur", "Nama Gunung", "Nama Jalur", "Status Jalur"};
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(kolom, 0);
     
-    // Query SQL untuk menggabungkan tabel jalur_pendakian dengan tabel gunung
+   
     String sql = "SELECT j.id_jalur, g.nama_gunung, j.nama_jalur, j.status_jalur " +
                  "FROM jalur_pendakian j " +
                  "JOIN gunung g ON j.id_gunung = g.id_gunung";
@@ -697,13 +782,13 @@ public void loadDataJalur() {
     }
 }
 private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String namaJalurLama, String statusJalurLama) {
-    // 1. Membuat frame Pop-up (Dialog) kecil
+    
     javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Kelola Detail Jalur - " + namaGunung, true);
     dialog.setSize(350, 220);
     dialog.setLayout(null);
     dialog.setLocationRelativeTo(this); // Biar pop-up muncul di tengah layar
 
-    // 2. Membuat Label & Text Field untuk Nama Jalur (txt)
+    
     javax.swing.JLabel lblNama = new javax.swing.JLabel("Nama Jalur:");
     lblNama.setBounds(20, 20, 100, 25);
     dialog.add(lblNama);
@@ -712,7 +797,7 @@ private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String n
     txtNamaJalur.setBounds(120, 20, 180, 25);
     dialog.add(txtNamaJalur);
 
-    // 3. Membuat Label & Combo Box untuk Status Jalur (cb)
+   
     javax.swing.JLabel lblStatus = new javax.swing.JLabel("Status Jalur:");
     lblStatus.setBounds(20, 60, 100, 25);
     dialog.add(lblStatus);
@@ -723,12 +808,12 @@ private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String n
     cbStatusJalur.setBounds(120, 60, 180, 25);
     dialog.add(cbStatusJalur);
 
-    // 4. Membuat Tombol SIMPAN SIMAKSI
+    
     javax.swing.JButton btnSimpan = new javax.swing.JButton("Simpan Perubahan");
     btnSimpan.setBounds(120, 110, 150, 30);
     dialog.add(btnSimpan);
 
-    // 5. Logika ketika tombol SIMPAN di dalam pop-up diklik
+    
     btnSimpan.addActionListener(new java.awt.event.ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -740,7 +825,7 @@ private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String n
                 return;
             }
 
-            // Eksekusi Update ke Database simaksi_online
+            
             String sql = "UPDATE jalur_pendakian SET nama_jalur = ?, status_jalur = ? WHERE id_jalur = ?";
             try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
                  java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -752,18 +837,55 @@ private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String n
                 int hasil = ps.executeUpdate();
                 if (hasil > 0) {
                     javax.swing.JOptionPane.showMessageDialog(dialog, "Data Jalur Berhasil Diperbarui!");
-                    dialog.dispose(); // Tutup jendela pop-up form
-                    loadDataJalur();  // Refresh tabel utama admin biar langsung berubah
+                    dialog.dispose(); 
+                    loadDataJalur();  
                 }
             } catch (java.sql.SQLException ex) {
                 ex.printStackTrace();
                 javax.swing.JOptionPane.showMessageDialog(dialog, "Error update database: " + ex.getMessage());
             }
         }
-    });
+    }
+            
+    );
+    
 
-    // Menampilkan jendela pop-up ke layar
-    dialog.setVisible(true);
+    
+    dialog.setVisible(true); 
+}
+private void loadDataRefund() {
+    String[] judul = {"ID Booking", "ID Pendaki", "Gunung", "Rekening Pendaki", "Alasan", "Status"};
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(null, judul) {
+        @Override
+        public boolean isCellEditable(int row, int column) { return false; } 
+    };
+    tampilkanDIContent.setModel(model);
+
+    
+    String sql = "SELECT b.id_booking, b.id_pendaki, g.nama_gunung, b.rekening_pendaki, b.alasan_refund, b.status_pembayaran " +
+                 "FROM booking b " +
+                 "JOIN gunung g ON b.id_gunung = g.id_gunung " +
+                 "WHERE b.status_pembayaran = 'Mengajukan Refund'";
+
+    try (java.sql.Connection conn = config.Koneksi.getInstance().getKoneksi();
+         java.sql.Statement st = conn.createStatement();
+         java.sql.ResultSet rs = st.executeQuery(sql)) {
+
+        while (rs.next()) {
+            Object[] data = {
+                rs.getString("id_booking"),
+                rs.getString("id_pendaki"),      
+                rs.getString("nama_gunung"),
+                rs.getString("rekening_pendaki"),
+                rs.getString("alasan_refund"),
+                rs.getString("status_pembayaran")
+            };
+            model.addRow(data);
+        }
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal memuat data refund: " + e.getMessage());
+        e.printStackTrace();
+    }
 }
     /**
      * @param args the command line arguments
@@ -801,15 +923,18 @@ private void tampilkanFormPopUpJalur(String idJalur, String namaGunung, String n
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnVerifikasiPembayaran;
     private javax.swing.JButton btnVerifikasiPendaftaran;
+    private javax.swing.JButton btnVerifikasiRefund;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tampilkanDIContent;
+    private javax.swing.JTextField txtCari;
     // End of variables declaration//GEN-END:variables
 }

@@ -150,7 +150,43 @@ public class Registrasi extends javax.swing.JFrame {
     String nik = txtNik.getText();
     String password = txtPassword.getText();
 
-    
+    if (!email.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Format email salah! Harus menggunakan alamat Gmail resmi (contoh: nama@gmail.com).", 
+                "Validasi Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
+        txtEmail.requestFocus(); // Garis kursor otomatis pindah ke kolom email
+        return; // Menghentikan proses register jika salah
+    }
+
+    // ================== VALIDASI 2: NOMOR HP HANYA ANGKA ==================
+    // \\d+ artinya baris teks hanya boleh berisi digit/angka minimal 1 atau lebih
+    if (!noTelp.matches("\\d+")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Nomor HP tidak valid! Kolom ini hanya boleh diisi oleh angka.", 
+                "Validasi Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
+        txtNoTelp.requestFocus();
+        return; 
+    }
+
+    // ================== VALIDASI 3: NIK HANYA ANGKA & 16 DIGIT ==================
+    // \\d{16} artinya harus berupa angka DAN panjangnya wajib pas 16 digit (Standar NIK KTP)
+    if (!nik.matches("\\d{16}")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "NIK tidak valid! Harus berupa angka dan berjumlah tepat 16 digit.", 
+                "Validasi Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
+        txtNik.requestFocus();
+        return; 
+    }
+
+    // ================== VALIDASI 4: EKSTENSI GAMBAR ==================
+    // Mengubah tulisan path menjadi huruf kecil semua (.PNG -> .png) agar tidak lolos sensor
+    String pathLower = pathFotoKTP.toLowerCase();
+    if (!pathLower.endsWith(".png") && !pathLower.endsWith(".jpg") && !pathLower.endsWith(".jpeg")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Format file gambar salah! File harus berupa .png, .jpg, atau .jpeg", 
+                "Validasi Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return; 
+    }
     if (nama.isEmpty() || email.isEmpty() || password.isEmpty() || nik.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, "Semua baris input wajib diisi!");
         return;
